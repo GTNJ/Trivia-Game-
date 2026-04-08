@@ -1,6 +1,6 @@
 const QUESTIONS_PER_GAME = 10;
 const TIME_PER_QUESTION = 10;
-const RECENT_HISTORY_LIMIT = 8;
+const RECENT_HISTORY_LIMIT = QUESTIONS_PER_GAME * 2;
 
 const triviaTopics = {
   "General Knowledge": {
@@ -271,6 +271,94 @@ const triviaTopics = {
       },
     },
   },
+  Sports: {
+    description: "Big games, famous rules, and iconic leagues.",
+    subcategories: {
+      Mixed: {
+        description: "A mix of global sports questions.",
+        questions: [
+          { id: "sports-1", question: "How many players from one team are on the court in basketball at a time?", answers: ["4", "5", "6", "7"], correctAnswer: "5" },
+          { id: "sports-2", question: "Which country won the FIFA World Cup in 2022?", answers: ["France", "Brazil", "Argentina", "Germany"], correctAnswer: "Argentina" },
+          { id: "sports-3", question: "In tennis, what is the term for a score of zero?", answers: ["Blank", "Love", "Nil", "Ace"], correctAnswer: "Love" },
+          { id: "sports-4", question: "Which sport uses a pommel horse?", answers: ["Polo", "Gymnastics", "Rugby", "Fencing"], correctAnswer: "Gymnastics" },
+          { id: "sports-5", question: "How many points is a touchdown worth in American football?", answers: ["3", "5", "6", "7"], correctAnswer: "6" },
+          { id: "sports-6", question: "Which country is strongly associated with cricket's IPL?", answers: ["Australia", "England", "India", "South Africa"], correctAnswer: "India" },
+          { id: "sports-7", question: "What color card means a player is sent off in soccer?", answers: ["Yellow", "Blue", "Green", "Red"], correctAnswer: "Red" },
+          { id: "sports-8", question: "In baseball, how many strikes make an out?", answers: ["2", "3", "4", "5"], correctAnswer: "3" },
+          { id: "sports-9", question: "Which race is known as 'The Fastest Two Minutes in Sports'?", answers: ["Daytona 500", "Kentucky Derby", "Tour de France", "Indy 500"], correctAnswer: "Kentucky Derby" },
+          { id: "sports-10", question: "Which sport features the terms birdie, eagle, and bogey?", answers: ["Badminton", "Golf", "Archery", "Hockey"], correctAnswer: "Golf" },
+          { id: "sports-11", question: "How many rings are on the Olympic flag?", answers: ["4", "5", "6", "7"], correctAnswer: "5" },
+          { id: "sports-12", question: "Which sport is Michael Phelps famous for?", answers: ["Running", "Swimming", "Cycling", "Rowing"], correctAnswer: "Swimming" },
+        ],
+      },
+    },
+  },
+  Literature: {
+    description: "Books, authors, and classic stories.",
+    subcategories: {
+      Mixed: {
+        description: "A broad reading-themed round.",
+        questions: [
+          { id: "lit-1", question: "Who wrote 'Romeo and Juliet'?", answers: ["Jane Austen", "William Shakespeare", "Charles Dickens", "Mark Twain"], correctAnswer: "William Shakespeare" },
+          { id: "lit-2", question: "Which wizarding school appears in the Harry Potter series?", answers: ["Narnia Academy", "Hogwarts", "Camp Half-Blood", "Nevermore"], correctAnswer: "Hogwarts" },
+          { id: "lit-3", question: "Who wrote 'Pride and Prejudice'?", answers: ["Emily Bronte", "Jane Austen", "Virginia Woolf", "Louisa May Alcott"], correctAnswer: "Jane Austen" },
+          { id: "lit-4", question: "What kind of animal is Aslan in 'The Chronicles of Narnia'?", answers: ["Wolf", "Lion", "Tiger", "Horse"], correctAnswer: "Lion" },
+          { id: "lit-5", question: "Who wrote '1984'?", answers: ["George Orwell", "Aldous Huxley", "Ray Bradbury", "J.R.R. Tolkien"], correctAnswer: "George Orwell" },
+          { id: "lit-6", question: "Which book begins with the line 'Call me Ishmael'?", answers: ["Treasure Island", "Moby-Dick", "The Odyssey", "The Old Man and the Sea"], correctAnswer: "Moby-Dick" },
+          { id: "lit-7", question: "Who created Sherlock Holmes?", answers: ["Agatha Christie", "Arthur Conan Doyle", "Edgar Allan Poe", "Jules Verne"], correctAnswer: "Arthur Conan Doyle" },
+          { id: "lit-8", question: "What is the surname of the sisters in 'Little Women'?", answers: ["March", "Dashwood", "Bennet", "Earnshaw"], correctAnswer: "March" },
+          { id: "lit-9", question: "Which author wrote 'The Hobbit'?", answers: ["C.S. Lewis", "J.K. Rowling", "J.R.R. Tolkien", "Terry Pratchett"], correctAnswer: "J.R.R. Tolkien" },
+          { id: "lit-10", question: "Who wrote 'The Raven'?", answers: ["Robert Frost", "Edgar Allan Poe", "Walt Whitman", "T.S. Eliot"], correctAnswer: "Edgar Allan Poe" },
+          { id: "lit-11", question: "What is the name of the pig in 'Charlotte's Web'?", answers: ["Babe", "Wilbur", "Templeton", "Fern"], correctAnswer: "Wilbur" },
+          { id: "lit-12", question: "Which dystopian series features Katniss Everdeen?", answers: ["Divergent", "The Maze Runner", "The Hunger Games", "Matched"], correctAnswer: "The Hunger Games" },
+        ],
+      },
+    },
+  },
+  Nature: {
+    description: "Animals, ecosystems, and the natural world.",
+    subcategories: {
+      Mixed: {
+        description: "A wild mix of earth and life questions.",
+        questions: [
+          { id: "nature-1", question: "What is the largest mammal on Earth?", answers: ["African elephant", "Blue whale", "Giraffe", "Hippopotamus"], correctAnswer: "Blue whale" },
+          { id: "nature-2", question: "Which bird is known for mimicking human speech?", answers: ["Crow", "Eagle", "Parrot", "Penguin"], correctAnswer: "Parrot" },
+          { id: "nature-3", question: "What is the tallest type of grass?", answers: ["Sugarcane", "Bamboo", "Wheat", "Reed"], correctAnswer: "Bamboo" },
+          { id: "nature-4", question: "Which animal is known as the king of the jungle?", answers: ["Tiger", "Lion", "Bear", "Leopard"], correctAnswer: "Lion" },
+          { id: "nature-5", question: "What do caterpillars become?", answers: ["Beetles", "Dragonflies", "Butterflies", "Moths only"], correctAnswer: "Butterflies" },
+          { id: "nature-6", question: "Which ocean animal has eight arms?", answers: ["Squid", "Octopus", "Starfish", "Seal"], correctAnswer: "Octopus" },
+          { id: "nature-7", question: "What is the process by which plants lose water vapor?", answers: ["Respiration", "Transpiration", "Condensation", "Fermentation"], correctAnswer: "Transpiration" },
+          { id: "nature-8", question: "Which layer of the Earth is beneath the crust?", answers: ["Core", "Mantle", "Outer shell", "Atmosphere"], correctAnswer: "Mantle" },
+          { id: "nature-9", question: "What kind of tree produces acorns?", answers: ["Pine", "Maple", "Oak", "Birch"], correctAnswer: "Oak" },
+          { id: "nature-10", question: "Which animal is famous for changing color to blend in?", answers: ["Otter", "Chameleon", "Falcon", "Rabbit"], correctAnswer: "Chameleon" },
+          { id: "nature-11", question: "What do we call animals active at night?", answers: ["Aquatic", "Herbivorous", "Nocturnal", "Migratory"], correctAnswer: "Nocturnal" },
+          { id: "nature-12", question: "Which natural disaster is measured on the Richter scale?", answers: ["Tornado", "Flood", "Earthquake", "Wildfire"], correctAnswer: "Earthquake" },
+        ],
+      },
+    },
+  },
+  "Food & Drink": {
+    description: "Ingredients, dishes, and world flavors.",
+    subcategories: {
+      Mixed: {
+        description: "A tasty mix of food trivia.",
+        questions: [
+          { id: "food-1", question: "Which fruit is dried to make raisins?", answers: ["Apple", "Grape", "Plum", "Cherry"], correctAnswer: "Grape" },
+          { id: "food-2", question: "What main ingredient is used to make guacamole?", answers: ["Cucumber", "Avocado", "Spinach", "Pea"], correctAnswer: "Avocado" },
+          { id: "food-3", question: "Which drink is made from ground roasted beans?", answers: ["Tea", "Coffee", "Cocoa", "Soda"], correctAnswer: "Coffee" },
+          { id: "food-4", question: "Sushi commonly includes which staple ingredient?", answers: ["Potato", "Rice", "Bread", "Cheese"], correctAnswer: "Rice" },
+          { id: "food-5", question: "What type of pastry is used for profiteroles?", answers: ["Puff pastry", "Shortcrust", "Choux pastry", "Filo"], correctAnswer: "Choux pastry" },
+          { id: "food-6", question: "Which country is most associated with tacos?", answers: ["Spain", "Mexico", "Italy", "Peru"], correctAnswer: "Mexico" },
+          { id: "food-7", question: "What do Italians call a coffee with milk foam?", answers: ["Espresso", "Latte", "Americano", "Mocha"], correctAnswer: "Latte" },
+          { id: "food-8", question: "Which vitamin is especially associated with oranges?", answers: ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin D"], correctAnswer: "Vitamin C" },
+          { id: "food-9", question: "What is tofu typically made from?", answers: ["Soybeans", "Chickpeas", "Potatoes", "Rice"], correctAnswer: "Soybeans" },
+          { id: "food-10", question: "Which spice is often considered the most expensive by weight?", answers: ["Cinnamon", "Pepper", "Saffron", "Paprika"], correctAnswer: "Saffron" },
+          { id: "food-11", question: "What is the main ingredient in hummus?", answers: ["Lentils", "Chickpeas", "Black beans", "Peanuts"], correctAnswer: "Chickpeas" },
+          { id: "food-12", question: "Which meal is usually eaten in the evening?", answers: ["Breakfast", "Brunch", "Lunch", "Dinner"], correctAnswer: "Dinner" },
+        ],
+      },
+    },
+  },
 };
 
 const ui = {};
@@ -298,7 +386,11 @@ function shuffle(items) {
 }
 
 function getPoolKey(topic, subcategory) {
-  return `trivia-jukebox:${topic}:${subcategory}:recent`;
+  return `trivia-sprint:${topic}:${subcategory}:recent`;
+}
+
+function getLastRoundKey(topic, subcategory) {
+  return `trivia-sprint:${topic}:${subcategory}:last-round`;
 }
 
 function getRecentHistory(topic, subcategory) {
@@ -320,18 +412,41 @@ function saveRecentHistory(topic, subcategory, questions) {
       JSON.stringify(merged.slice(-RECENT_HISTORY_LIMIT)),
     );
   } catch {
-    // Storage can fail silently without blocking the game.
+    // Ignore storage issues.
+  }
+}
+
+function getLastRound(topic, subcategory) {
+  try {
+    const raw = window.localStorage.getItem(getLastRoundKey(topic, subcategory));
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLastRound(topic, subcategory, questions) {
+  try {
+    window.localStorage.setItem(
+      getLastRoundKey(topic, subcategory),
+      JSON.stringify(questions.map((question) => question.id)),
+    );
+  } catch {
+    // Ignore storage issues.
   }
 }
 
 function chooseQuestions(topic, subcategory) {
   const pool = triviaTopics[topic].subcategories[subcategory].questions;
   const recent = new Set(getRecentHistory(topic, subcategory));
-  const fresh = shuffle(pool.filter((question) => !recent.has(question.id)));
-  const fallback = shuffle(pool.filter((question) => recent.has(question.id)));
-  const selected = [...fresh, ...fallback].slice(0, QUESTIONS_PER_GAME);
+  const lastRound = new Set(getLastRound(topic, subcategory));
+  const neverSeen = shuffle(pool.filter((question) => !recent.has(question.id) && !lastRound.has(question.id)));
+  const notInLastRound = shuffle(pool.filter((question) => !lastRound.has(question.id) && recent.has(question.id)));
+  const seenBefore = shuffle(pool.filter((question) => lastRound.has(question.id)));
+  const selected = [...neverSeen, ...notInLastRound, ...seenBefore].slice(0, QUESTIONS_PER_GAME);
 
   saveRecentHistory(topic, subcategory, selected);
+  saveLastRound(topic, subcategory, selected);
   return selected;
 }
 
@@ -362,7 +477,7 @@ function createAudioContext() {
   return createAudioContext.instance;
 }
 
-function playToneSequence(sequence, waveform = "triangle", duration = 0.12) {
+function playToneSequence(sequence, waveform = "square", duration = 0.12) {
   const audioContext = createAudioContext();
 
   if (!audioContext) {
@@ -380,7 +495,7 @@ function playToneSequence(sequence, waveform = "triangle", duration = 0.12) {
     oscillator.type = waveform;
     oscillator.frequency.setValueAtTime(frequency, noteStart);
     gain.gain.setValueAtTime(0.001, noteStart);
-    gain.gain.exponentialRampToValueAtTime(0.07, noteStart + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.055, noteStart + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.001, noteEnd);
 
     oscillator.connect(gain);
@@ -392,15 +507,11 @@ function playToneSequence(sequence, waveform = "triangle", duration = 0.12) {
 
 function playEffect(kind) {
   if (kind === "correct") {
-    playToneSequence([523.25, 659.25, 783.99], "triangle", 0.11);
+    playToneSequence([523.25, 659.25, 783.99], "square", 0.09);
   } else if (kind === "wrong") {
-    playToneSequence([196.0, 174.61], "sawtooth", 0.16);
-  } else if (kind === "perfect") {
-    playToneSequence([523.25, 659.25, 783.99, 1046.5], "triangle", 0.12);
-  } else if (kind === "good") {
-    playToneSequence([440.0, 659.25, 880.0], "square", 0.12);
-  } else if (kind === "sad") {
-    playToneSequence([329.63, 261.63, 220.0], "sine", 0.2);
+    playToneSequence([220.0, 174.61], "sawtooth", 0.14);
+  } else if (kind === "great") {
+    playToneSequence([523.25, 659.25, 783.99, 1046.5], "triangle", 0.1);
   }
 }
 
@@ -419,82 +530,6 @@ function setFeedback(message, kind = "") {
     flashCard(kind);
     playEffect(kind);
   }
-}
-
-function clearEffects() {
-  ui.effectsLayer.innerHTML = "";
-  ui.resultVisual.innerHTML = "";
-}
-
-function launchConfetti() {
-  clearEffects();
-
-  for (let index = 0; index < 36; index += 1) {
-    const piece = document.createElement("span");
-    piece.className = "confetti-piece";
-    piece.style.left = `${Math.random() * 100}%`;
-    piece.style.animationDelay = `${Math.random() * 0.5}s`;
-    piece.style.background = ["#ffcf40", "#ff6b6b", "#37d5d6", "#9b5cff", "#00d084"][index % 5];
-    ui.effectsLayer.appendChild(piece);
-  }
-
-  ui.resultVisual.innerHTML = '<div class="result-badge badge-perfect">10/10 Superstar</div>';
-  playEffect("perfect");
-}
-
-function launchFireworks() {
-  clearEffects();
-
-  for (let burst = 0; burst < 4; burst += 1) {
-    const firework = document.createElement("div");
-    firework.className = "firework";
-    firework.style.left = `${18 + burst * 20}%`;
-    firework.style.top = `${15 + (burst % 2) * 12}%`;
-
-    for (let spark = 0; spark < 10; spark += 1) {
-      const particle = document.createElement("span");
-      particle.style.setProperty("--angle", `${spark * 36}deg`);
-      particle.style.setProperty("--color", ["#ff6b6b", "#ffd93d", "#6bcBef", "#c77dff"][spark % 4]);
-      firework.appendChild(particle);
-    }
-
-    ui.effectsLayer.appendChild(firework);
-  }
-
-  ui.resultVisual.innerHTML = '<div class="result-badge badge-fireworks">Great Show</div>';
-  playEffect("good");
-}
-
-function launchSadFace() {
-  clearEffects();
-  const face = document.createElement("div");
-  face.className = "sad-face";
-  face.innerHTML = '<span class="tear tear-left"></span><span class="tear tear-right"></span><span class="sad-mouth"></span>';
-  ui.resultVisual.appendChild(face);
-  ui.resultVisual.insertAdjacentHTML("beforeend", '<div class="result-badge badge-sad">Needs Another Spin</div>');
-  playEffect("sad");
-}
-
-function updateTimerDisplay(secondsLeft) {
-  const clamped = Math.max(0, secondsLeft);
-  const progress = (clamped / TIME_PER_QUESTION) * 100;
-  ui.timerText.textContent = `${clamped}s`;
-  ui.timerBar.style.width = `${progress}%`;
-  ui.timerBar.style.background = clamped <= 3
-    ? "linear-gradient(90deg, #ff5d73, #ffd166)"
-    : "linear-gradient(90deg, #37d5d6, #ff9f1c)";
-}
-
-function lockAnswers(correctAnswer, chosenAnswer) {
-  [...ui.answerButtons.querySelectorAll("button")].forEach((button) => {
-    button.disabled = true;
-
-    if (button.textContent === correctAnswer) {
-      button.classList.add("correct");
-    } else if (chosenAnswer && button.textContent === chosenAnswer) {
-      button.classList.add("wrong");
-    }
-  });
 }
 
 function renderTopics() {
@@ -527,8 +562,8 @@ function selectTopic(topic) {
   state.selectedTopic = topic;
   state.selectedSubcategory = "";
   ui.subcategoryPanel.classList.remove("hidden");
-  ui.subcategoryCopy.textContent = `${topic} has ${Object.keys(triviaTopics[topic].subcategories).length} themed tracks.`;
-  ui.selectionSummary.textContent = `Topic selected: ${topic}. Choose a subcategory to queue the record.`;
+  ui.subcategoryCopy.textContent = `${topic} has ${Object.keys(triviaTopics[topic].subcategories).length} subcategories.`;
+  ui.selectionSummary.textContent = `Topic selected: ${topic}. Choose a subcategory to continue.`;
   ui.startGameButton.disabled = true;
   renderSubcategories(topic);
 
@@ -544,6 +579,28 @@ function selectSubcategory(subcategory) {
 
   [...ui.subcategoryList.querySelectorAll(".subcategory-button")].forEach((button) => {
     button.classList.toggle("active", button.querySelector("strong").textContent === subcategory);
+  });
+}
+
+function updateTimerDisplay(secondsLeft) {
+  const clamped = Math.max(0, secondsLeft);
+  const progress = (clamped / TIME_PER_QUESTION) * 100;
+  ui.timerText.textContent = `${clamped}s`;
+  ui.timerBar.style.width = `${progress}%`;
+  ui.timerBar.style.background = clamped <= 3
+    ? "linear-gradient(90deg, #ff6b6b, #ffd166)"
+    : "linear-gradient(90deg, #4cc9f0, #f72585)";
+}
+
+function lockAnswers(correctAnswer, chosenAnswer) {
+  [...ui.answerButtons.querySelectorAll("button")].forEach((button) => {
+    button.disabled = true;
+
+    if (button.textContent === correctAnswer) {
+      button.classList.add("correct");
+    } else if (chosenAnswer && button.textContent === chosenAnswer) {
+      button.classList.add("wrong");
+    }
   });
 }
 
@@ -568,7 +625,6 @@ function startGame() {
     return;
   }
 
-  clearEffects();
   clearTimers();
   state.currentQuestions = chooseQuestions(state.selectedTopic, state.selectedSubcategory);
   state.currentQuestionIndex = 0;
@@ -630,13 +686,13 @@ function handleAnswer(selectedAnswer) {
   if (isCorrect) {
     state.score += 1;
     ui.scoreDisplay.textContent = String(state.score);
-    setFeedback("Correct! The jukebox lights up.", "correct");
+    setFeedback("Correct! +1 point.", "correct");
   } else {
-    setFeedback(`Off beat. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+    setFeedback(`Not quite. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
   }
 
   lockAnswers(currentQuestion.correctAnswer, selectedAnswer);
-  ui.nowPlayingText.textContent = isCorrect ? "Crowd cheers in neon." : "Scratch on the record.";
+  ui.nowPlayingText.textContent = isCorrect ? "Score climbing." : "Next question coming up.";
   state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1400);
 }
 
@@ -649,24 +705,23 @@ function handleTimeout() {
   const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
   setFeedback(`Time's up! The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
   lockAnswers(currentQuestion.correctAnswer);
-  ui.nowPlayingText.textContent = "The needle skipped that one.";
+  ui.nowPlayingText.textContent = "Next question loading.";
   state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1600);
 }
 
 function endGame() {
   clearTimers();
-  clearEffects();
   ui.finalScore.textContent = `${state.score} / ${QUESTIONS_PER_GAME}`;
 
-  if (state.score === 10) {
-    ui.resultMessage.textContent = "Perfect 10. The whole jukebox erupts in confetti.";
-    launchConfetti();
-  } else if (state.score >= 5) {
-    ui.resultMessage.textContent = "Strong set. Fireworks burst over the dance floor.";
-    launchFireworks();
+  if (state.score === QUESTIONS_PER_GAME) {
+    ui.resultMessage.textContent = "Perfect score. That was a flawless run.";
+    playEffect("great");
+  } else if (state.score >= 7) {
+    ui.resultMessage.textContent = "Strong round. You were on a streak.";
+  } else if (state.score >= 4) {
+    ui.resultMessage.textContent = "Nice effort. One more round could top that score.";
   } else {
-    ui.resultMessage.textContent = "Rough night on stage. The jukebox is feeling emotional.";
-    launchSadFace();
+    ui.resultMessage.textContent = "That round was tough, but the next one should feel fresher.";
   }
 
   showScreen(ui.resultScreen);
@@ -674,7 +729,6 @@ function endGame() {
 
 function initializeGame() {
   ui.gameCard = document.getElementById("game-card");
-  ui.effectsLayer = document.getElementById("effects-layer");
   ui.startScreen = document.getElementById("start-screen");
   ui.gameScreen = document.getElementById("game-screen");
   ui.resultScreen = document.getElementById("result-screen");
@@ -696,7 +750,6 @@ function initializeGame() {
   ui.feedback = document.getElementById("feedback");
   ui.resultMessage = document.getElementById("result-message");
   ui.finalScore = document.getElementById("final-score");
-  ui.resultVisual = document.getElementById("result-visual");
   ui.playAgainButton = document.getElementById("play-again");
   ui.replayTopicButton = document.getElementById("replay-topic");
 
@@ -705,7 +758,6 @@ function initializeGame() {
   ui.startGameButton.addEventListener("click", startGame);
   ui.playAgainButton.addEventListener("click", () => {
     clearTimers();
-    clearEffects();
     showScreen(ui.startScreen);
   });
   ui.replayTopicButton.addEventListener("click", startGame);
