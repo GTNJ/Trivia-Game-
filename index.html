@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia Sprint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <p class="eyebrow">Fast rounds. Better categories.</p>
+      <h1>Trivia Sprint</h1>
+      <p class="hero-copy">
+        Pick a category and race through 10 timed questions. You get 10 seconds per question
+        and score 1 point for every correct answer.
+      </p>
+    </section>
+
+    <section class="game-card" id="game-card">
+      <div id="start-screen" class="screen active">
+        <div class="panel-heading">
+          <h2>Select a Topic</h2>
+          <p>Each category includes 10 questions and instant answer feedback.</p>
+        </div>
+        <div id="topic-list" class="topic-grid" aria-label="Topic selection"></div>
+      </div>
+
+      <div id="game-screen" class="screen" aria-live="polite">
+        <div class="status-bar">
+          <div class="status-pill">
+            <span class="status-label">Topic</span>
+            <strong id="topic-name">General Knowledge</strong>
+          </div>
+          <div class="status-pill">
+            <span class="status-label">Question</span>
+            <strong id="question-count">1 / 10</strong>
+          </div>
+          <div class="status-pill">
+            <span class="status-label">Score</span>
+            <strong id="score">0</strong>
+          </div>
+        </div>
+
+        <div class="timer-wrap">
+          <div class="timer-header">
+            <span>Time left</span>
+            <strong id="timer-text">10s</strong>
+          </div>
+          <div class="timer-track" aria-hidden="true">
+            <div id="timer-bar" class="timer-bar"></div>
+          </div>
+        </div>
+
+        <div class="question-panel">
+          <h2 id="question-text">Question text</h2>
+          <div id="answer-buttons" class="answer-grid"></div>
+          <p id="feedback" class="feedback"></p>
+        </div>
+      </div>
+
+      <div id="result-screen" class="screen">
+        <div class="panel-heading">
+          <h2>Round Complete</h2>
+          <p id="result-message">You finished the game.</p>
+        </div>
+        <div class="result-score">
+          <span>Final Score</span>
+          <strong id="final-score">0 / 10</strong>
+        </div>
+        <div class="result-actions">
+          <button id="play-again" class="secondary-button" type="button">Choose Another Topic</button>
+          <button id="replay-topic" class="primary-button" type="button">Play Same Topic Again</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
