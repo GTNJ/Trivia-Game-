@@ -3,69 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivia Sprint</title>
+  <title>Trivia Jukebox</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Rye&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app-shell">
     <section class="hero">
-      <p class="eyebrow">Smarter rounds. More variety.</p>
-      <h1>Trivia Sprint</h1>
+      <p class="eyebrow">Neon lights. Fast facts.</p>
+      <h1>Trivia Jukebox</h1>
       <p class="hero-copy">
-        Play solo or challenge a friend on the same device. Pick a topic, choose a subcategory,
-        and race through 10 timed questions with fewer repeats.
+        Drop a coin into a retro round, pick your lane, and answer 10 timed questions with
+        arcade sounds, flashy reveals, and a dramatic finale.
       </p>
     </section>
 
     <section class="game-card" id="game-card">
+      <div class="jukebox-glow"></div>
+      <div id="effects-layer" class="effects-layer" aria-hidden="true"></div>
+
       <div id="start-screen" class="screen active">
         <div class="panel-heading">
-          <h2>Set Up Your Round</h2>
-          <p>Choose a mode, topic, and subcategory before you begin.</p>
-        </div>
-
-        <div id="mode-list" class="mode-grid" aria-label="Game mode selection">
-          <button class="mode-button active" type="button" data-mode="single">
-            <strong>Single Player</strong>
-            <span>One score, one timer, 10 quick questions.</span>
-          </button>
-          <button class="mode-button" type="button" data-mode="duo">
-            <strong>2 Player Local</strong>
-            <span>Take turns on one device and compare scores at the end.</span>
-          </button>
+          <h2>Choose Your Record</h2>
+          <p>Pick a topic, then a subcategory to spin up your 10-question set.</p>
         </div>
 
         <div class="selection-block">
           <div class="panel-heading compact">
-            <h3>1. Pick a Topic</h3>
-            <p>Math, science, general knowledge, and more.</p>
+            <h3>1. Topic</h3>
+            <p>Every record has its own flavor.</p>
           </div>
           <div id="topic-list" class="topic-grid" aria-label="Topic selection"></div>
         </div>
 
         <div id="subcategory-panel" class="selection-block hidden">
           <div class="panel-heading compact">
-            <h3>2. Pick a Subcategory</h3>
+            <h3>2. Subcategory</h3>
             <p id="subcategory-copy">Choose the exact round you want to play.</p>
           </div>
           <div id="subcategory-list" class="subcategory-grid" aria-label="Subcategory selection"></div>
         </div>
 
         <div class="setup-actions">
-          <p id="selection-summary" class="selection-summary">Choose a topic to unlock the round settings.</p>
-          <button id="start-game" class="primary-button" type="button" disabled>Start Game</button>
+          <p id="selection-summary" class="selection-summary">Choose a topic to unlock your retro round.</p>
+          <button id="start-game" class="primary-button" type="button" disabled>Start The Jukebox</button>
         </div>
       </div>
 
       <div id="game-screen" class="screen" aria-live="polite">
         <div class="status-bar">
-          <div class="status-pill">
-            <span class="status-label">Mode</span>
-            <strong id="mode-name">Single Player</strong>
-          </div>
           <div class="status-pill">
             <span class="status-label">Topic</span>
             <strong id="topic-name">General Knowledge</strong>
@@ -75,36 +63,24 @@
             <strong id="subcategory-name">World Facts</strong>
           </div>
           <div class="status-pill">
-            <span class="status-label">Question</span>
+            <span class="status-label">Track</span>
             <strong id="question-count">1 / 10</strong>
           </div>
-        </div>
-
-        <div id="duel-board" class="duel-board hidden">
-          <div class="duel-pill active-turn" id="player-one-card">
-            <span id="player-one-label">Player 1</span>
-            <strong id="player-one-score">0</strong>
-          </div>
-          <div class="duel-pill" id="player-two-card">
-            <span id="player-two-label">Player 2</span>
-            <strong id="player-two-score">0</strong>
-          </div>
-        </div>
-
-        <div id="single-score-wrap" class="single-score-wrap">
           <div class="status-pill">
             <span class="status-label">Score</span>
             <strong id="score">0</strong>
           </div>
-          <div class="status-pill">
-            <span class="status-label">Current Turn</span>
-            <strong id="current-player">Player 1</strong>
-          </div>
+        </div>
+
+        <div class="now-playing">
+          <span class="record-dot"></span>
+          <strong>Now Playing:</strong>
+          <span id="now-playing-text">Ready to spin.</span>
         </div>
 
         <div class="timer-wrap">
           <div class="timer-header">
-            <span>Time left</span>
+            <span>Needle drops in</span>
             <strong id="timer-text">10s</strong>
           </div>
           <div class="timer-track" aria-hidden="true">
@@ -121,16 +97,17 @@
 
       <div id="result-screen" class="screen">
         <div class="panel-heading">
-          <h2>Round Complete</h2>
-          <p id="result-message">You finished the game.</p>
+          <h2>Show’s Over</h2>
+          <p id="result-message">You finished the set.</p>
         </div>
         <div class="result-score">
-          <span id="result-label">Final Score</span>
+          <span>Final Score</span>
           <strong id="final-score">0 / 10</strong>
+          <div id="result-visual" class="result-visual" aria-hidden="true"></div>
         </div>
         <div class="result-actions">
-          <button id="play-again" class="secondary-button" type="button">Back To Menu</button>
-          <button id="replay-topic" class="primary-button" type="button">Play Same Round Again</button>
+          <button id="play-again" class="secondary-button" type="button">Choose Another Record</button>
+          <button id="replay-topic" class="primary-button" type="button">Replay Same Round</button>
         </div>
       </div>
     </section>

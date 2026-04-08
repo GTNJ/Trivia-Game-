@@ -275,22 +275,15 @@ const triviaTopics = {
 
 const ui = {};
 const state = {
-  mode: "single",
   selectedTopic: "",
   selectedSubcategory: "",
   currentQuestions: [],
   currentQuestionIndex: 0,
+  score: 0,
   countdown: TIME_PER_QUESTION,
   timerId: null,
   advanceTimeoutId: null,
   hasAnsweredCurrentQuestion: false,
-  singleScore: 0,
-  players: [
-    { name: "Player 1", score: 0 },
-    { name: "Player 2", score: 0 },
-  ],
-  currentPlayerIndex: 0,
-  roundBuffer: null,
 };
 
 function shuffle(items) {
@@ -305,7 +298,7 @@ function shuffle(items) {
 }
 
 function getPoolKey(topic, subcategory) {
-  return `trivia-sprint:${topic}:${subcategory}:recent`;
+  return `trivia-jukebox:${topic}:${subcategory}:recent`;
 }
 
 function getRecentHistory(topic, subcategory) {
@@ -322,10 +315,12 @@ function saveRecentHistory(topic, subcategory, questions) {
     const existing = getRecentHistory(topic, subcategory);
     const ids = questions.map((question) => question.id);
     const merged = [...new Set([...existing, ...ids])];
-    const trimmed = merged.slice(-RECENT_HISTORY_LIMIT);
-    window.localStorage.setItem(getPoolKey(topic, subcategory), JSON.stringify(trimmed));
+    window.localStorage.setItem(
+      getPoolKey(topic, subcategory),
+      JSON.stringify(merged.slice(-RECENT_HISTORY_LIMIT)),
+    );
   } catch {
-    // Ignore storage issues and keep the round playable.
+    // Storage can fail silently without blocking the game.
   }
 }
 
@@ -353,35 +348,60 @@ function showScreen(screen) {
   });
 }
 
-function playEffect(kind) {
+function createAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
 
   if (!AudioContextClass) {
+    return null;
+  }
+
+  if (!createAudioContext.instance) {
+    createAudioContext.instance = new AudioContextClass();
+  }
+
+  return createAudioContext.instance;
+}
+
+function playToneSequence(sequence, waveform = "triangle", duration = 0.12) {
+  const audioContext = createAudioContext();
+
+  if (!audioContext) {
     return;
   }
 
-  if (!playEffect.audioContext) {
-    playEffect.audioContext = new AudioContextClass();
-  }
+  const start = audioContext.currentTime;
 
-  const audioContext = playEffect.audioContext;
-  const now = audioContext.currentTime;
-  const gain = audioContext.createGain();
-  gain.connect(audioContext.destination);
-  gain.gain.setValueAtTime(0.001, now);
-  gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-
-  const frequencies = kind === "correct" ? [523.25, 659.25] : [196.0, 130.81];
-
-  frequencies.forEach((frequency) => {
+  sequence.forEach((frequency, index) => {
     const oscillator = audioContext.createOscillator();
-    oscillator.type = kind === "correct" ? "triangle" : "sawtooth";
-    oscillator.frequency.setValueAtTime(frequency, now);
+    const gain = audioContext.createGain();
+    const noteStart = start + index * duration;
+    const noteEnd = noteStart + duration;
+
+    oscillator.type = waveform;
+    oscillator.frequency.setValueAtTime(frequency, noteStart);
+    gain.gain.setValueAtTime(0.001, noteStart);
+    gain.gain.exponentialRampToValueAtTime(0.07, noteStart + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, noteEnd);
+
     oscillator.connect(gain);
-    oscillator.start(now);
-    oscillator.stop(now + 0.25);
+    gain.connect(audioContext.destination);
+    oscillator.start(noteStart);
+    oscillator.stop(noteEnd);
   });
+}
+
+function playEffect(kind) {
+  if (kind === "correct") {
+    playToneSequence([523.25, 659.25, 783.99], "triangle", 0.11);
+  } else if (kind === "wrong") {
+    playToneSequence([196.0, 174.61], "sawtooth", 0.16);
+  } else if (kind === "perfect") {
+    playToneSequence([523.25, 659.25, 783.99, 1046.5], "triangle", 0.12);
+  } else if (kind === "good") {
+    playToneSequence([440.0, 659.25, 880.0], "square", 0.12);
+  } else if (kind === "sad") {
+    playToneSequence([329.63, 261.63, 220.0], "sine", 0.2);
+  }
 }
 
 function flashCard(kind) {
@@ -401,18 +421,80 @@ function setFeedback(message, kind = "") {
   }
 }
 
-function updateModeButtons() {
-  ui.modeButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.mode === state.mode);
-  });
+function clearEffects() {
+  ui.effectsLayer.innerHTML = "";
+  ui.resultVisual.innerHTML = "";
 }
 
-function setMode(mode) {
-  state.mode = mode;
-  updateModeButtons();
-  ui.selectionSummary.textContent = state.selectedTopic
-    ? `Mode: ${mode === "single" ? "Single Player" : "2 Player Local"}.`
-    : "Choose a topic to unlock the round settings.";
+function launchConfetti() {
+  clearEffects();
+
+  for (let index = 0; index < 36; index += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.animationDelay = `${Math.random() * 0.5}s`;
+    piece.style.background = ["#ffcf40", "#ff6b6b", "#37d5d6", "#9b5cff", "#00d084"][index % 5];
+    ui.effectsLayer.appendChild(piece);
+  }
+
+  ui.resultVisual.innerHTML = '<div class="result-badge badge-perfect">10/10 Superstar</div>';
+  playEffect("perfect");
+}
+
+function launchFireworks() {
+  clearEffects();
+
+  for (let burst = 0; burst < 4; burst += 1) {
+    const firework = document.createElement("div");
+    firework.className = "firework";
+    firework.style.left = `${18 + burst * 20}%`;
+    firework.style.top = `${15 + (burst % 2) * 12}%`;
+
+    for (let spark = 0; spark < 10; spark += 1) {
+      const particle = document.createElement("span");
+      particle.style.setProperty("--angle", `${spark * 36}deg`);
+      particle.style.setProperty("--color", ["#ff6b6b", "#ffd93d", "#6bcBef", "#c77dff"][spark % 4]);
+      firework.appendChild(particle);
+    }
+
+    ui.effectsLayer.appendChild(firework);
+  }
+
+  ui.resultVisual.innerHTML = '<div class="result-badge badge-fireworks">Great Show</div>';
+  playEffect("good");
+}
+
+function launchSadFace() {
+  clearEffects();
+  const face = document.createElement("div");
+  face.className = "sad-face";
+  face.innerHTML = '<span class="tear tear-left"></span><span class="tear tear-right"></span><span class="sad-mouth"></span>';
+  ui.resultVisual.appendChild(face);
+  ui.resultVisual.insertAdjacentHTML("beforeend", '<div class="result-badge badge-sad">Needs Another Spin</div>');
+  playEffect("sad");
+}
+
+function updateTimerDisplay(secondsLeft) {
+  const clamped = Math.max(0, secondsLeft);
+  const progress = (clamped / TIME_PER_QUESTION) * 100;
+  ui.timerText.textContent = `${clamped}s`;
+  ui.timerBar.style.width = `${progress}%`;
+  ui.timerBar.style.background = clamped <= 3
+    ? "linear-gradient(90deg, #ff5d73, #ffd166)"
+    : "linear-gradient(90deg, #37d5d6, #ff9f1c)";
+}
+
+function lockAnswers(correctAnswer, chosenAnswer) {
+  [...ui.answerButtons.querySelectorAll("button")].forEach((button) => {
+    button.disabled = true;
+
+    if (button.textContent === correctAnswer) {
+      button.classList.add("correct");
+    } else if (chosenAnswer && button.textContent === chosenAnswer) {
+      button.classList.add("wrong");
+    }
+  });
 }
 
 function renderTopics() {
@@ -430,9 +512,8 @@ function renderTopics() {
 
 function renderSubcategories(topic) {
   ui.subcategoryList.innerHTML = "";
-  const subcategories = triviaTopics[topic].subcategories;
 
-  Object.entries(subcategories).forEach(([subcategoryName, config]) => {
+  Object.entries(triviaTopics[topic].subcategories).forEach(([subcategoryName, config]) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "subcategory-button";
@@ -446,10 +527,10 @@ function selectTopic(topic) {
   state.selectedTopic = topic;
   state.selectedSubcategory = "";
   ui.subcategoryPanel.classList.remove("hidden");
-  ui.subcategoryCopy.textContent = `${topic} has ${Object.keys(triviaTopics[topic].subcategories).length} subcategories.`;
-  renderSubcategories(topic);
+  ui.subcategoryCopy.textContent = `${topic} has ${Object.keys(triviaTopics[topic].subcategories).length} themed tracks.`;
+  ui.selectionSummary.textContent = `Topic selected: ${topic}. Choose a subcategory to queue the record.`;
   ui.startGameButton.disabled = true;
-  ui.selectionSummary.textContent = `Topic selected: ${topic}. Pick a subcategory next.`;
+  renderSubcategories(topic);
 
   [...ui.topicList.querySelectorAll(".topic-button")].forEach((button) => {
     button.classList.toggle("active", button.querySelector("strong").textContent === topic);
@@ -458,39 +539,18 @@ function selectTopic(topic) {
 
 function selectSubcategory(subcategory) {
   state.selectedSubcategory = subcategory;
+  ui.selectionSummary.textContent = `${state.selectedTopic} • ${subcategory} is ready to play.`;
   ui.startGameButton.disabled = false;
-  ui.selectionSummary.textContent = `${state.mode === "single" ? "Single Player" : "2 Player Local"} • ${state.selectedTopic} • ${subcategory}`;
 
   [...ui.subcategoryList.querySelectorAll(".subcategory-button")].forEach((button) => {
     button.classList.toggle("active", button.querySelector("strong").textContent === subcategory);
   });
 }
 
-function updateTimerDisplay(secondsLeft) {
-  const clamped = Math.max(0, secondsLeft);
-  const progress = (clamped / TIME_PER_QUESTION) * 100;
-  ui.timerText.textContent = `${clamped}s`;
-  ui.timerBar.style.width = `${progress}%`;
-  ui.timerBar.style.background = clamped <= 3
-    ? "linear-gradient(90deg, #c53030, #f6ad55)"
-    : "linear-gradient(90deg, #244c5a, #dd6b20)";
-}
-
-function lockAnswers(correctAnswer, chosenAnswer) {
-  [...ui.answerButtons.querySelectorAll("button")].forEach((button) => {
-    button.disabled = true;
-
-    if (button.textContent === correctAnswer) {
-      button.classList.add("correct");
-    } else if (chosenAnswer && button.textContent === chosenAnswer) {
-      button.classList.add("wrong");
-    }
-  });
-}
-
 function renderQuestion(question) {
   ui.questionCount.textContent = `${state.currentQuestionIndex + 1} / ${QUESTIONS_PER_GAME}`;
   ui.questionText.textContent = question.question;
+  ui.nowPlayingText.textContent = `${state.selectedTopic} • ${state.selectedSubcategory}`;
   ui.answerButtons.innerHTML = "";
 
   shuffle(question.answers).forEach((answer) => {
@@ -503,44 +563,20 @@ function renderQuestion(question) {
   });
 }
 
-function updateGameHeader() {
-  ui.modeName.textContent = state.mode === "single" ? "Single Player" : "2 Player Local";
-  ui.topicName.textContent = state.selectedTopic;
-  ui.subcategoryName.textContent = state.selectedSubcategory;
-  ui.singleScoreWrap.classList.toggle("hidden", state.mode === "duo");
-  ui.duelBoard.classList.toggle("hidden", state.mode !== "duo");
-
-  if (state.mode === "single") {
-    ui.scoreDisplay.textContent = String(state.singleScore);
-    ui.currentPlayer.textContent = "Player 1";
-  } else {
-    ui.playerOneLabel.textContent = state.players[0].name;
-    ui.playerTwoLabel.textContent = state.players[1].name;
-    ui.playerOneScore.textContent = String(state.players[0].score);
-    ui.playerTwoScore.textContent = String(state.players[1].score);
-    ui.currentPlayer.textContent = state.players[state.currentPlayerIndex].name;
-    ui.playerOneCard.classList.toggle("active-turn", state.currentPlayerIndex === 0);
-    ui.playerTwoCard.classList.toggle("active-turn", state.currentPlayerIndex === 1);
-  }
-}
-
 function startGame() {
   if (!state.selectedTopic || !state.selectedSubcategory) {
     return;
   }
 
+  clearEffects();
   clearTimers();
   state.currentQuestions = chooseQuestions(state.selectedTopic, state.selectedSubcategory);
   state.currentQuestionIndex = 0;
-  state.singleScore = 0;
-  state.players = [
-    { name: "Player 1", score: 0 },
-    { name: "Player 2", score: 0 },
-  ];
-  state.currentPlayerIndex = 0;
-  state.roundBuffer = null;
+  state.score = 0;
   state.hasAnsweredCurrentQuestion = false;
-  updateGameHeader();
+  ui.topicName.textContent = state.selectedTopic;
+  ui.subcategoryName.textContent = state.selectedSubcategory;
+  ui.scoreDisplay.textContent = "0";
   showScreen(ui.gameScreen);
   showQuestion();
 }
@@ -566,73 +602,18 @@ function showQuestion() {
   state.hasAnsweredCurrentQuestion = false;
   setFeedback("");
   renderQuestion(state.currentQuestions[state.currentQuestionIndex]);
-  updateGameHeader();
   startTimer();
 }
 
-function handleSinglePlayerAnswer(selectedAnswer) {
-  const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
-  const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+function moveToNextQuestion() {
+  state.currentQuestionIndex += 1;
 
-  if (isCorrect) {
-    state.singleScore += 1;
-    ui.scoreDisplay.textContent = String(state.singleScore);
-    setFeedback("Correct! +1 point.", "correct");
-  } else {
-    setFeedback(`Not quite. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+  if (state.currentQuestionIndex >= QUESTIONS_PER_GAME) {
+    endGame();
+    return;
   }
 
-  lockAnswers(currentQuestion.correctAnswer, selectedAnswer);
-  state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1400);
-}
-
-function handleDuoAnswer(selectedAnswer) {
-  const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
-  const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-  const activePlayer = state.players[state.currentPlayerIndex];
-
-  if (isCorrect) {
-    activePlayer.score += 1;
-    setFeedback(`${activePlayer.name} got it right. +1 point.`, "correct");
-  } else {
-    setFeedback(`${activePlayer.name} missed it.`, "wrong");
-  }
-
-  state.roundBuffer = {
-    chosenAnswer: selectedAnswer,
-    correctAnswer: currentQuestion.correctAnswer,
-    wasCorrect: isCorrect,
-  };
-
-  lockAnswers(currentQuestion.correctAnswer, selectedAnswer);
-  updateGameHeader();
-
-  if (state.currentPlayerIndex === 0) {
-    state.advanceTimeoutId = window.setTimeout(switchToSecondPlayerTurn, 1400);
-  } else {
-    state.advanceTimeoutId = window.setTimeout(() => finishDuoQuestion(false), 1400);
-  }
-}
-
-function switchToSecondPlayerTurn() {
-  clearTimers();
-  state.currentPlayerIndex = 1;
-  state.hasAnsweredCurrentQuestion = false;
-  setFeedback("Player 2, your turn on the same question.", "");
-  renderQuestion(state.currentQuestions[state.currentQuestionIndex]);
-  updateGameHeader();
-  startTimer();
-}
-
-function finishDuoQuestion(timedOut) {
-  const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
-  const answerText = timedOut
-    ? `${state.players[state.currentPlayerIndex].name} ran out of time. Correct answer: ${currentQuestion.correctAnswer}.`
-    : `Round complete. Correct answer: ${currentQuestion.correctAnswer}.`;
-
-  setFeedback(answerText, timedOut ? "wrong" : "");
-  lockAnswers(currentQuestion.correctAnswer, state.roundBuffer?.chosenAnswer);
-  state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1400);
+  showQuestion();
 }
 
 function handleAnswer(selectedAnswer) {
@@ -643,11 +624,20 @@ function handleAnswer(selectedAnswer) {
   state.hasAnsweredCurrentQuestion = true;
   clearTimers();
 
-  if (state.mode === "single") {
-    handleSinglePlayerAnswer(selectedAnswer);
+  const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
+  const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+
+  if (isCorrect) {
+    state.score += 1;
+    ui.scoreDisplay.textContent = String(state.score);
+    setFeedback("Correct! The jukebox lights up.", "correct");
   } else {
-    handleDuoAnswer(selectedAnswer);
+    setFeedback(`Off beat. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
   }
+
+  lockAnswers(currentQuestion.correctAnswer, selectedAnswer);
+  ui.nowPlayingText.textContent = isCorrect ? "Crowd cheers in neon." : "Scratch on the record.";
+  state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1400);
 }
 
 function handleTimeout() {
@@ -657,67 +647,26 @@ function handleTimeout() {
 
   state.hasAnsweredCurrentQuestion = true;
   const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
-
-  if (state.mode === "single") {
-    setFeedback(`Time's up! The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
-    lockAnswers(currentQuestion.correctAnswer);
-    state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1600);
-    return;
-  }
-
-  const activePlayer = state.players[state.currentPlayerIndex];
-  setFeedback(`${activePlayer.name} ran out of time.`, "wrong");
+  setFeedback(`Time's up! The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
   lockAnswers(currentQuestion.correctAnswer);
-
-  if (state.currentPlayerIndex === 0) {
-    state.advanceTimeoutId = window.setTimeout(switchToSecondPlayerTurn, 1400);
-  } else {
-    state.advanceTimeoutId = window.setTimeout(() => finishDuoQuestion(true), 1400);
-  }
-}
-
-function moveToNextQuestion() {
-  state.currentQuestionIndex += 1;
-  state.currentPlayerIndex = 0;
-  state.roundBuffer = null;
-
-  if (state.currentQuestionIndex >= QUESTIONS_PER_GAME) {
-    endGame();
-    return;
-  }
-
-  showQuestion();
+  ui.nowPlayingText.textContent = "The needle skipped that one.";
+  state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1600);
 }
 
 function endGame() {
   clearTimers();
+  clearEffects();
+  ui.finalScore.textContent = `${state.score} / ${QUESTIONS_PER_GAME}`;
 
-  if (state.mode === "single") {
-    ui.resultLabel.textContent = "Final Score";
-    ui.finalScore.textContent = `${state.singleScore} / ${QUESTIONS_PER_GAME}`;
-
-    if (state.singleScore === QUESTIONS_PER_GAME) {
-      ui.resultMessage.textContent = `Perfect score in ${state.selectedTopic} • ${state.selectedSubcategory}.`;
-    } else if (state.singleScore >= 7) {
-      ui.resultMessage.textContent = `Strong run in ${state.selectedTopic} • ${state.selectedSubcategory}.`;
-    } else if (state.singleScore >= 4) {
-      ui.resultMessage.textContent = `Nice effort. The anti-repeat pool should keep the next round fresher too.`;
-    } else {
-      ui.resultMessage.textContent = `That round was tricky, but the next one should feel less repetitive.`;
-    }
+  if (state.score === 10) {
+    ui.resultMessage.textContent = "Perfect 10. The whole jukebox erupts in confetti.";
+    launchConfetti();
+  } else if (state.score >= 5) {
+    ui.resultMessage.textContent = "Strong set. Fireworks burst over the dance floor.";
+    launchFireworks();
   } else {
-    const playerOne = state.players[0];
-    const playerTwo = state.players[1];
-    ui.resultLabel.textContent = "Final Match Score";
-    ui.finalScore.textContent = `${playerOne.score} - ${playerTwo.score}`;
-
-    if (playerOne.score > playerTwo.score) {
-      ui.resultMessage.textContent = `${playerOne.name} wins the round against ${playerTwo.name}.`;
-    } else if (playerTwo.score > playerOne.score) {
-      ui.resultMessage.textContent = `${playerTwo.name} wins the round against ${playerOne.name}.`;
-    } else {
-      ui.resultMessage.textContent = `It’s a tie. Both players finished with ${playerOne.score} points.`;
-    }
+    ui.resultMessage.textContent = "Rough night on stage. The jukebox is feeling emotional.";
+    launchSadFace();
   }
 
   showScreen(ui.resultScreen);
@@ -725,51 +674,38 @@ function endGame() {
 
 function initializeGame() {
   ui.gameCard = document.getElementById("game-card");
+  ui.effectsLayer = document.getElementById("effects-layer");
   ui.startScreen = document.getElementById("start-screen");
   ui.gameScreen = document.getElementById("game-screen");
   ui.resultScreen = document.getElementById("result-screen");
-  ui.modeButtons = [...document.querySelectorAll("[data-mode]")];
   ui.topicList = document.getElementById("topic-list");
   ui.subcategoryPanel = document.getElementById("subcategory-panel");
   ui.subcategoryList = document.getElementById("subcategory-list");
   ui.subcategoryCopy = document.getElementById("subcategory-copy");
   ui.selectionSummary = document.getElementById("selection-summary");
   ui.startGameButton = document.getElementById("start-game");
-  ui.modeName = document.getElementById("mode-name");
   ui.topicName = document.getElementById("topic-name");
   ui.subcategoryName = document.getElementById("subcategory-name");
   ui.questionCount = document.getElementById("question-count");
   ui.scoreDisplay = document.getElementById("score");
-  ui.currentPlayer = document.getElementById("current-player");
-  ui.singleScoreWrap = document.getElementById("single-score-wrap");
-  ui.duelBoard = document.getElementById("duel-board");
-  ui.playerOneCard = document.getElementById("player-one-card");
-  ui.playerTwoCard = document.getElementById("player-two-card");
-  ui.playerOneLabel = document.getElementById("player-one-label");
-  ui.playerTwoLabel = document.getElementById("player-two-label");
-  ui.playerOneScore = document.getElementById("player-one-score");
-  ui.playerTwoScore = document.getElementById("player-two-score");
+  ui.nowPlayingText = document.getElementById("now-playing-text");
   ui.timerText = document.getElementById("timer-text");
   ui.timerBar = document.getElementById("timer-bar");
   ui.questionText = document.getElementById("question-text");
   ui.answerButtons = document.getElementById("answer-buttons");
   ui.feedback = document.getElementById("feedback");
-  ui.resultLabel = document.getElementById("result-label");
   ui.resultMessage = document.getElementById("result-message");
   ui.finalScore = document.getElementById("final-score");
+  ui.resultVisual = document.getElementById("result-visual");
   ui.playAgainButton = document.getElementById("play-again");
   ui.replayTopicButton = document.getElementById("replay-topic");
 
   renderTopics();
-  updateModeButtons();
-
-  ui.modeButtons.forEach((button) => {
-    button.addEventListener("click", () => setMode(button.dataset.mode));
-  });
 
   ui.startGameButton.addEventListener("click", startGame);
   ui.playAgainButton.addEventListener("click", () => {
     clearTimers();
+    clearEffects();
     showScreen(ui.startScreen);
   });
   ui.replayTopicButton.addEventListener("click", startGame);
