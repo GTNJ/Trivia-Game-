@@ -12,36 +12,93 @@
 <body>
   <main class="app-shell">
     <section class="hero">
-      <p class="eyebrow">Fast rounds. Better categories.</p>
+      <p class="eyebrow">Smarter rounds. More variety.</p>
       <h1>Trivia Sprint</h1>
       <p class="hero-copy">
-        Pick a category and race through 10 timed questions. You get 10 seconds per question
-        and score 1 point for every correct answer.
+        Play solo or challenge a friend on the same device. Pick a topic, choose a subcategory,
+        and race through 10 timed questions with fewer repeats.
       </p>
     </section>
 
     <section class="game-card" id="game-card">
       <div id="start-screen" class="screen active">
         <div class="panel-heading">
-          <h2>Select a Topic</h2>
-          <p>Each category includes 10 questions and instant answer feedback.</p>
+          <h2>Set Up Your Round</h2>
+          <p>Choose a mode, topic, and subcategory before you begin.</p>
         </div>
-        <div id="topic-list" class="topic-grid" aria-label="Topic selection"></div>
+
+        <div id="mode-list" class="mode-grid" aria-label="Game mode selection">
+          <button class="mode-button active" type="button" data-mode="single">
+            <strong>Single Player</strong>
+            <span>One score, one timer, 10 quick questions.</span>
+          </button>
+          <button class="mode-button" type="button" data-mode="duo">
+            <strong>2 Player Local</strong>
+            <span>Take turns on one device and compare scores at the end.</span>
+          </button>
+        </div>
+
+        <div class="selection-block">
+          <div class="panel-heading compact">
+            <h3>1. Pick a Topic</h3>
+            <p>Math, science, general knowledge, and more.</p>
+          </div>
+          <div id="topic-list" class="topic-grid" aria-label="Topic selection"></div>
+        </div>
+
+        <div id="subcategory-panel" class="selection-block hidden">
+          <div class="panel-heading compact">
+            <h3>2. Pick a Subcategory</h3>
+            <p id="subcategory-copy">Choose the exact round you want to play.</p>
+          </div>
+          <div id="subcategory-list" class="subcategory-grid" aria-label="Subcategory selection"></div>
+        </div>
+
+        <div class="setup-actions">
+          <p id="selection-summary" class="selection-summary">Choose a topic to unlock the round settings.</p>
+          <button id="start-game" class="primary-button" type="button" disabled>Start Game</button>
+        </div>
       </div>
 
       <div id="game-screen" class="screen" aria-live="polite">
         <div class="status-bar">
           <div class="status-pill">
+            <span class="status-label">Mode</span>
+            <strong id="mode-name">Single Player</strong>
+          </div>
+          <div class="status-pill">
             <span class="status-label">Topic</span>
             <strong id="topic-name">General Knowledge</strong>
+          </div>
+          <div class="status-pill">
+            <span class="status-label">Subcategory</span>
+            <strong id="subcategory-name">World Facts</strong>
           </div>
           <div class="status-pill">
             <span class="status-label">Question</span>
             <strong id="question-count">1 / 10</strong>
           </div>
+        </div>
+
+        <div id="duel-board" class="duel-board hidden">
+          <div class="duel-pill active-turn" id="player-one-card">
+            <span id="player-one-label">Player 1</span>
+            <strong id="player-one-score">0</strong>
+          </div>
+          <div class="duel-pill" id="player-two-card">
+            <span id="player-two-label">Player 2</span>
+            <strong id="player-two-score">0</strong>
+          </div>
+        </div>
+
+        <div id="single-score-wrap" class="single-score-wrap">
           <div class="status-pill">
             <span class="status-label">Score</span>
             <strong id="score">0</strong>
+          </div>
+          <div class="status-pill">
+            <span class="status-label">Current Turn</span>
+            <strong id="current-player">Player 1</strong>
           </div>
         </div>
 
@@ -68,12 +125,12 @@
           <p id="result-message">You finished the game.</p>
         </div>
         <div class="result-score">
-          <span>Final Score</span>
+          <span id="result-label">Final Score</span>
           <strong id="final-score">0 / 10</strong>
         </div>
         <div class="result-actions">
-          <button id="play-again" class="secondary-button" type="button">Choose Another Topic</button>
-          <button id="replay-topic" class="primary-button" type="button">Play Same Topic Again</button>
+          <button id="play-again" class="secondary-button" type="button">Back To Menu</button>
+          <button id="replay-topic" class="primary-button" type="button">Play Same Round Again</button>
         </div>
       </div>
     </section>

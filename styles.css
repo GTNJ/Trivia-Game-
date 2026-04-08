@@ -5,9 +5,7 @@
   --text: #1b1712;
   --muted: #65584a;
   --primary: #dd6b20;
-  --primary-dark: #a84a12;
   --secondary: #244c5a;
-  --secondary-soft: #d8e8ed;
   --correct: #2f855a;
   --wrong: #c53030;
   --border: rgba(27, 23, 18, 0.1);
@@ -61,7 +59,7 @@ body {
 }
 
 .hero-copy {
-  width: min(44ch, 100%);
+  width: min(46ch, 100%);
   margin: 1.25rem 0 0;
   font-size: 1.08rem;
   line-height: 1.7;
@@ -71,7 +69,7 @@ body {
 .game-card {
   position: relative;
   overflow: hidden;
-  min-height: 700px;
+  min-height: 720px;
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 28px;
   padding: 1.5rem;
@@ -111,6 +109,10 @@ body {
   flex-direction: column;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .panel-heading h2,
 .panel-heading h3 {
   margin: 0;
@@ -121,7 +123,7 @@ body {
 }
 
 .panel-heading h3 {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 .panel-heading p {
@@ -130,14 +132,12 @@ body {
   line-height: 1.6;
 }
 
-.panel-heading.compact p {
-  font-size: 0.96rem;
-}
-
 .mode-grid,
 .topic-grid,
+.subcategory-grid,
 .answer-grid,
-.lobby-grid {
+.status-bar,
+.duel-board {
   display: grid;
   gap: 1rem;
 }
@@ -147,13 +147,19 @@ body {
   margin-top: 1.5rem;
 }
 
-.topic-grid {
+.topic-grid,
+.subcategory-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 1.4rem;
+  margin-top: 1rem;
+}
+
+.selection-block {
+  margin-top: 1.6rem;
 }
 
 .mode-button,
 .topic-button,
+.subcategory-button,
 .answer-button,
 .primary-button,
 .secondary-button {
@@ -166,170 +172,83 @@ body {
 
 .mode-button,
 .topic-button,
-.join-card,
-.players-card {
+.subcategory-button,
+.status-pill,
+.duel-pill {
   background: var(--card-strong);
   border: 1px solid var(--border);
   box-shadow: 0 12px 25px rgba(40, 28, 17, 0.06);
 }
 
 .mode-button,
-.topic-button {
+.topic-button,
+.subcategory-button {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.45rem;
-  padding: 1.25rem;
+  padding: 1.15rem;
   text-align: left;
 }
 
 .mode-button strong,
-.topic-button strong {
+.topic-button strong,
+.subcategory-button strong {
   font-size: 1.05rem;
 }
 
 .mode-button span,
-.topic-button span {
+.topic-button span,
+.subcategory-button span {
   color: var(--muted);
   line-height: 1.5;
 }
 
-.mode-button.active {
+.mode-button.active,
+.topic-button.active,
+.subcategory-button.active,
+.duel-pill.active-turn {
   background: linear-gradient(135deg, rgba(221, 107, 32, 0.18), rgba(255, 255, 255, 0.96));
   border-color: rgba(221, 107, 32, 0.35);
 }
 
 .mode-button:hover,
 .topic-button:hover,
+.subcategory-button:hover,
 .answer-button:hover,
 .primary-button:hover,
 .secondary-button:hover {
   transform: translateY(-2px);
 }
 
-.mode-panel {
-  display: none;
-  margin-top: 1.6rem;
+.setup-actions {
+  margin-top: auto;
+  padding-top: 1.5rem;
 }
 
-.mode-panel.active {
-  display: block;
-}
-
-.multiplayer-shell {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 1rem;
-}
-
-.join-card,
-.multiplayer-copy {
-  padding: 1.15rem;
-  border-radius: 24px;
-}
-
-.multiplayer-copy {
-  background: linear-gradient(140deg, rgba(255, 248, 240, 0.9), rgba(255, 215, 168, 0.18));
-  border: 1px solid rgba(221, 107, 32, 0.15);
-}
-
-.input-grid {
-  display: grid;
-  gap: 0.9rem;
-  margin-top: 1rem;
-}
-
-.field {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.field span {
-  font-size: 0.88rem;
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.field input,
-.field select {
-  width: 100%;
-  border: 1px solid rgba(27, 23, 18, 0.12);
-  border-radius: 14px;
-  padding: 0.9rem 1rem;
-  background: rgba(255, 255, 255, 0.9);
-  font: inherit;
-  color: var(--text);
-}
-
-.field input:focus,
-.field select:focus {
-  outline: 2px solid rgba(36, 76, 90, 0.18);
-  border-color: var(--secondary);
-}
-
-.multiplayer-actions {
-  margin-top: 1rem;
-}
-
-.lobby-error {
+.selection-summary {
   min-height: 1.4rem;
-  margin: 0.85rem 0 0;
-  color: var(--wrong);
-  font-weight: 700;
-}
-
-.lobby-grid {
-  grid-template-columns: 1fr 1fr;
-  margin-top: 1.8rem;
-}
-
-.room-code-card small {
-  display: block;
-  margin-top: 0.6rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.players-card {
-  padding: 1.35rem;
-  border-radius: 24px;
-}
-
-.player-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
-}
-
-.player-line:last-of-type {
-  border-bottom: 0;
-}
-
-.player-line span {
-  color: var(--muted);
-}
-
-.lobby-status {
-  margin: 1rem 0 0;
+  margin: 0 0 1rem;
   color: var(--secondary);
   font-weight: 700;
 }
 
 .status-bar {
-  display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+.single-score-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.9rem;
 }
 
 .status-pill,
 .duel-pill {
   padding: 0.95rem 1rem;
   border-radius: 18px;
-  background: rgba(255, 248, 240, 0.9);
-  border: 1px solid var(--border);
 }
 
 .status-label {
@@ -342,28 +261,19 @@ body {
 }
 
 .duel-board {
-  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   margin-top: 0.95rem;
 }
 
-.duel-pill {
-  background: linear-gradient(135deg, rgba(36, 76, 90, 0.08), rgba(255, 255, 255, 0.88));
-}
-
 .duel-pill span {
   display: block;
-  color: var(--muted);
   margin-bottom: 0.25rem;
+  color: var(--muted);
 }
 
 .duel-pill strong {
-  font-size: 1.45rem;
-}
-
-.hidden {
-  display: none;
+  font-size: 1.35rem;
 }
 
 .timer-wrap {
@@ -407,7 +317,7 @@ body {
 
 .question-panel h2 {
   margin: 0;
-  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
   line-height: 1.2;
 }
 
@@ -417,9 +327,8 @@ body {
 }
 
 .answer-button {
-  position: relative;
   padding: 1rem 1.1rem;
-  min-height: 90px;
+  min-height: 92px;
   text-align: left;
   background: #fff;
   border: 1px solid var(--border);
@@ -499,6 +408,12 @@ body {
   box-shadow: 0 16px 30px rgba(221, 107, 32, 0.22);
 }
 
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
 .secondary-button {
   background: #fff;
   color: var(--text);
@@ -545,11 +460,6 @@ body {
   .game-card {
     min-height: 0;
   }
-
-  .multiplayer-shell,
-  .lobby-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 680px) {
@@ -564,8 +474,10 @@ body {
 
   .mode-grid,
   .topic-grid,
+  .subcategory-grid,
   .answer-grid,
   .status-bar,
+  .single-score-wrap,
   .duel-board,
   .result-actions {
     grid-template-columns: 1fr;
