@@ -359,10 +359,121 @@ const triviaTopics = {
       },
     },
   },
+  Movies: {
+    description: "Blockbusters, quotes, and famous characters.",
+    subcategories: {
+      Mixed: {
+        description: "A broad movie night mix.",
+        questions: [
+          { id: "movies-1", question: "Which movie features a theme park full of cloned dinosaurs?", answers: ["Jaws", "Jurassic Park", "King Kong", "Godzilla"], correctAnswer: "Jurassic Park" },
+          { id: "movies-2", question: "Who directed Titanic?", answers: ["Steven Spielberg", "James Cameron", "Christopher Nolan", "Ridley Scott"], correctAnswer: "James Cameron" },
+          { id: "movies-3", question: "Which film series features the character Ethan Hunt?", answers: ["Bourne", "Mission: Impossible", "John Wick", "Die Hard"], correctAnswer: "Mission: Impossible" },
+          { id: "movies-4", question: "Which movie has the line 'Life is like a box of chocolates'?", answers: ["Cast Away", "Forrest Gump", "Big", "Rain Man"], correctAnswer: "Forrest Gump" },
+          { id: "movies-5", question: "What color pill does Neo take in The Matrix?", answers: ["Blue", "Red", "Green", "White"], correctAnswer: "Red" },
+          { id: "movies-6", question: "Which animated movie features Lightning McQueen?", answers: ["Turbo", "Cars", "Planes", "Toy Story"], correctAnswer: "Cars" },
+          { id: "movies-7", question: "Which actor played Iron Man in the MCU?", answers: ["Chris Evans", "Robert Downey Jr.", "Mark Ruffalo", "Jeremy Renner"], correctAnswer: "Robert Downey Jr." },
+          { id: "movies-8", question: "What is the fictional African nation in Black Panther?", answers: ["Wakanda", "Genovia", "Zamunda", "Latveria"], correctAnswer: "Wakanda" },
+          { id: "movies-9", question: "Which movie begins with a dream-sharing heist?", answers: ["Interstellar", "Tenet", "Inception", "Memento"], correctAnswer: "Inception" },
+          { id: "movies-10", question: "Which film is about a clownfish searching for his son?", answers: ["Shark Tale", "Finding Nemo", "Moana", "Luca"], correctAnswer: "Finding Nemo" },
+          { id: "movies-11", question: "Which actor played Jack Sparrow?", answers: ["Johnny Depp", "Orlando Bloom", "Hugh Jackman", "Tom Hanks"], correctAnswer: "Johnny Depp" },
+          { id: "movies-12", question: "Which movie franchise features lightsabers?", answers: ["Star Trek", "Star Wars", "Dune", "Avatar"], correctAnswer: "Star Wars" },
+        ],
+      },
+    },
+  },
+  Music: {
+    description: "Songs, artists, and chart legends.",
+    subcategories: {
+      Mixed: {
+        description: "A broad music trivia mix.",
+        questions: [
+          { id: "music-1", question: "Which artist is known as the King of Pop?", answers: ["Prince", "Elton John", "Michael Jackson", "Bruno Mars"], correctAnswer: "Michael Jackson" },
+          { id: "music-2", question: "Which band recorded 'Bohemian Rhapsody'?", answers: ["Queen", "ABBA", "The Beatles", "Coldplay"], correctAnswer: "Queen" },
+          { id: "music-3", question: "How many strings does a standard guitar usually have?", answers: ["4", "5", "6", "7"], correctAnswer: "6" },
+          { id: "music-4", question: "Who sang 'Rolling in the Deep'?", answers: ["Adele", "Sia", "Rihanna", "Beyonce"], correctAnswer: "Adele" },
+          { id: "music-5", question: "Which instrument has black and white keys?", answers: ["Violin", "Piano", "Trumpet", "Drums"], correctAnswer: "Piano" },
+          { id: "music-6", question: "Which artist released the album 1989?", answers: ["Taylor Swift", "Billie Eilish", "Lady Gaga", "Katy Perry"], correctAnswer: "Taylor Swift" },
+          { id: "music-7", question: "Which music term means very loud?", answers: ["Piano", "Forte", "Legato", "Tempo"], correctAnswer: "Forte" },
+          { id: "music-8", question: "What family of instruments does the trumpet belong to?", answers: ["Woodwind", "String", "Brass", "Percussion"], correctAnswer: "Brass" },
+          { id: "music-9", question: "Which artist is famous for the song 'Bad Guy'?", answers: ["Dua Lipa", "Billie Eilish", "Lorde", "Olivia Rodrigo"], correctAnswer: "Billie Eilish" },
+          { id: "music-10", question: "Which member of The Beatles was nicknamed the Quiet Beatle?", answers: ["John Lennon", "Paul McCartney", "George Harrison", "Ringo Starr"], correctAnswer: "George Harrison" },
+          { id: "music-11", question: "What do we call the speed of a song?", answers: ["Pitch", "Tempo", "Scale", "Note"], correctAnswer: "Tempo" },
+          { id: "music-12", question: "Which singer is known for 'Shape of You'?", answers: ["Ed Sheeran", "Shawn Mendes", "Harry Styles", "Justin Bieber"], correctAnswer: "Ed Sheeran" },
+        ],
+      },
+    },
+  },
+  Art: {
+    description: "Paintings, artists, and visual culture.",
+    subcategories: {
+      Mixed: {
+        description: "A gallery-style art round.",
+        questions: [
+          { id: "art-1", question: "Who painted the Mona Lisa?", answers: ["Vincent van Gogh", "Leonardo da Vinci", "Claude Monet", "Pablo Picasso"], correctAnswer: "Leonardo da Vinci" },
+          { id: "art-2", question: "Which artist cut off part of his ear?", answers: ["Salvador Dali", "Vincent van Gogh", "Henri Matisse", "Rembrandt"], correctAnswer: "Vincent van Gogh" },
+          { id: "art-3", question: "The Starry Night was painted by which artist?", answers: ["Monet", "Picasso", "van Gogh", "Munch"], correctAnswer: "van Gogh" },
+          { id: "art-4", question: "Which museum is home to the Mona Lisa?", answers: ["The Met", "The Louvre", "Uffizi Gallery", "Tate Modern"], correctAnswer: "The Louvre" },
+          { id: "art-5", question: "What do we call a painting of a person?", answers: ["Landscape", "Portrait", "Still life", "Mural"], correctAnswer: "Portrait" },
+          { id: "art-6", question: "Which artist is known for melting clocks?", answers: ["Picasso", "Dali", "Warhol", "Cezanne"], correctAnswer: "Dali" },
+          { id: "art-7", question: "What primary colors can be mixed to make purple?", answers: ["Red and blue", "Blue and yellow", "Red and yellow", "Yellow and green"], correctAnswer: "Red and blue" },
+          { id: "art-8", question: "Which pop artist created colorful Campbell's Soup can works?", answers: ["Basquiat", "Warhol", "Pollock", "Rothko"], correctAnswer: "Warhol" },
+          { id: "art-9", question: "What is a sculpture typically made to be?", answers: ["Touched only in books", "Three-dimensional", "Always painted", "Flat"], correctAnswer: "Three-dimensional" },
+          { id: "art-10", question: "Which artist co-founded Cubism?", answers: ["Picasso", "Monet", "Matisse", "Klimt"], correctAnswer: "Picasso" },
+          { id: "art-11", question: "What is a painting of fruit and objects called?", answers: ["Still life", "Abstract", "Portrait", "Panorama"], correctAnswer: "Still life" },
+          { id: "art-12", question: "Which medium uses water-soluble pigments on paper?", answers: ["Oil", "Charcoal", "Watercolor", "Pastel"], correctAnswer: "Watercolor" },
+        ],
+      },
+    },
+  },
+  Space: {
+    description: "Planets, stars, and cosmic facts.",
+    subcategories: {
+      Mixed: {
+        description: "A stellar set of space trivia.",
+        questions: [
+          { id: "space-1", question: "Which planet is known as the Red Planet?", answers: ["Mars", "Venus", "Mercury", "Jupiter"], correctAnswer: "Mars" },
+          { id: "space-2", question: "What is the name of our galaxy?", answers: ["Andromeda", "Milky Way", "Orion", "Pegasus"], correctAnswer: "Milky Way" },
+          { id: "space-3", question: "Which planet is famous for its rings?", answers: ["Neptune", "Saturn", "Earth", "Mars"], correctAnswer: "Saturn" },
+          { id: "space-4", question: "What is the Sun?", answers: ["A planet", "A comet", "A star", "A moon"], correctAnswer: "A star" },
+          { id: "space-5", question: "Who was the first human to walk on the Moon?", answers: ["Buzz Aldrin", "Yuri Gagarin", "Neil Armstrong", "Michael Collins"], correctAnswer: "Neil Armstrong" },
+          { id: "space-6", question: "What force keeps planets in orbit?", answers: ["Magnetism", "Friction", "Gravity", "Pressure"], correctAnswer: "Gravity" },
+          { id: "space-7", question: "Which planet is closest to the Sun?", answers: ["Mercury", "Venus", "Earth", "Mars"], correctAnswer: "Mercury" },
+          { id: "space-8", question: "What do astronauts wear in space?", answers: ["Armor", "Spacesuits", "Raincoats", "Flight jackets"], correctAnswer: "Spacesuits" },
+          { id: "space-9", question: "Which telescope is famous for orbiting Earth and taking deep space images?", answers: ["Kepler", "Hubble", "Voyager", "Sputnik"], correctAnswer: "Hubble" },
+          { id: "space-10", question: "How many planets are in our solar system?", answers: ["7", "8", "9", "10"], correctAnswer: "8" },
+          { id: "space-11", question: "What is a shooting star actually called?", answers: ["Meteor", "Asteroid", "Nebula", "Galaxy"], correctAnswer: "Meteor" },
+          { id: "space-12", question: "Which planet is largest in our solar system?", answers: ["Saturn", "Earth", "Jupiter", "Uranus"], correctAnswer: "Jupiter" },
+        ],
+      },
+    },
+  },
+  Mythology: {
+    description: "Gods, heroes, and legendary creatures.",
+    subcategories: {
+      Mixed: {
+        description: "A mixed mythology challenge.",
+        questions: [
+          { id: "myth-1", question: "In Greek mythology, who is the king of the gods?", answers: ["Ares", "Apollo", "Zeus", "Hermes"], correctAnswer: "Zeus" },
+          { id: "myth-2", question: "Thor is associated with which weapon?", answers: ["Sword", "Hammer", "Bow", "Trident"], correctAnswer: "Hammer" },
+          { id: "myth-3", question: "What mythical creature is part lion and part eagle?", answers: ["Griffin", "Phoenix", "Centaur", "Hydra"], correctAnswer: "Griffin" },
+          { id: "myth-4", question: "Who is the Greek goddess of wisdom?", answers: ["Hera", "Athena", "Artemis", "Demeter"], correctAnswer: "Athena" },
+          { id: "myth-5", question: "In Roman mythology, who is the equivalent of Zeus?", answers: ["Mars", "Jupiter", "Neptune", "Mercury"], correctAnswer: "Jupiter" },
+          { id: "myth-6", question: "What creature rises from its ashes?", answers: ["Dragon", "Phoenix", "Kraken", "Minotaur"], correctAnswer: "Phoenix" },
+          { id: "myth-7", question: "Who went on twelve labors in Greek mythology?", answers: ["Perseus", "Achilles", "Hercules", "Odysseus"], correctAnswer: "Hercules" },
+          { id: "myth-8", question: "What is the name of the one-eyed giant in Greek myths?", answers: ["Cyclops", "Centaur", "Satyr", "Hydra"], correctAnswer: "Cyclops" },
+          { id: "myth-9", question: "In Norse mythology, what is the name of Odin's son with the hammer?", answers: ["Loki", "Balder", "Thor", "Tyr"], correctAnswer: "Thor" },
+          { id: "myth-10", question: "What maze-dwelling creature had the body of a man and head of a bull?", answers: ["Sphinx", "Minotaur", "Cerberus", "Faun"], correctAnswer: "Minotaur" },
+          { id: "myth-11", question: "Who is the Greek god of the sea?", answers: ["Hermes", "Poseidon", "Hephaestus", "Hades"], correctAnswer: "Poseidon" },
+          { id: "myth-12", question: "What mythical horse has wings?", answers: ["Pegasus", "Sleipnir", "Unicorn", "Kelpie"], correctAnswer: "Pegasus" },
+        ],
+      },
+    },
+  },
 };
 
 const ui = {};
 const state = {
+  mode: "single",
   selectedTopic: "",
   selectedSubcategory: "",
   currentQuestions: [],
@@ -372,16 +483,17 @@ const state = {
   timerId: null,
   advanceTimeoutId: null,
   hasAnsweredCurrentQuestion: false,
+  autoStartTimeoutId: null,
+  partyPlayers: [],
+  activePlayerIndex: 0,
 };
 
 function shuffle(items) {
   const copy = [...items];
-
   for (let index = copy.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
     [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
   }
-
   return copy;
 }
 
@@ -407,13 +519,8 @@ function saveRecentHistory(topic, subcategory, questions) {
     const existing = getRecentHistory(topic, subcategory);
     const ids = questions.map((question) => question.id);
     const merged = [...new Set([...existing, ...ids])];
-    window.localStorage.setItem(
-      getPoolKey(topic, subcategory),
-      JSON.stringify(merged.slice(-RECENT_HISTORY_LIMIT)),
-    );
-  } catch {
-    // Ignore storage issues.
-  }
+    window.localStorage.setItem(getPoolKey(topic, subcategory), JSON.stringify(merged.slice(-RECENT_HISTORY_LIMIT)));
+  } catch {}
 }
 
 function getLastRound(topic, subcategory) {
@@ -427,13 +534,8 @@ function getLastRound(topic, subcategory) {
 
 function saveLastRound(topic, subcategory, questions) {
   try {
-    window.localStorage.setItem(
-      getLastRoundKey(topic, subcategory),
-      JSON.stringify(questions.map((question) => question.id)),
-    );
-  } catch {
-    // Ignore storage issues.
-  }
+    window.localStorage.setItem(getLastRoundKey(topic, subcategory), JSON.stringify(questions.map((question) => question.id)));
+  } catch {}
 }
 
 function chooseQuestions(topic, subcategory) {
@@ -444,7 +546,6 @@ function chooseQuestions(topic, subcategory) {
   const notInLastRound = shuffle(pool.filter((question) => !lastRound.has(question.id) && recent.has(question.id)));
   const seenBefore = shuffle(pool.filter((question) => lastRound.has(question.id)));
   const selected = [...neverSeen, ...notInLastRound, ...seenBefore].slice(0, QUESTIONS_PER_GAME);
-
   saveRecentHistory(topic, subcategory, selected);
   saveLastRound(topic, subcategory, selected);
   return selected;
@@ -453,8 +554,10 @@ function chooseQuestions(topic, subcategory) {
 function clearTimers() {
   window.clearInterval(state.timerId);
   window.clearTimeout(state.advanceTimeoutId);
+  window.clearTimeout(state.autoStartTimeoutId);
   state.timerId = null;
   state.advanceTimeoutId = null;
+  state.autoStartTimeoutId = null;
 }
 
 function showScreen(screen) {
@@ -465,39 +568,25 @@ function showScreen(screen) {
 
 function createAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-
-  if (!AudioContextClass) {
-    return null;
-  }
-
-  if (!createAudioContext.instance) {
-    createAudioContext.instance = new AudioContextClass();
-  }
-
+  if (!AudioContextClass) return null;
+  if (!createAudioContext.instance) createAudioContext.instance = new AudioContextClass();
   return createAudioContext.instance;
 }
 
 function playToneSequence(sequence, waveform = "square", duration = 0.12) {
   const audioContext = createAudioContext();
-
-  if (!audioContext) {
-    return;
-  }
-
+  if (!audioContext) return;
   const start = audioContext.currentTime;
-
   sequence.forEach((frequency, index) => {
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
     const noteStart = start + index * duration;
     const noteEnd = noteStart + duration;
-
     oscillator.type = waveform;
     oscillator.frequency.setValueAtTime(frequency, noteStart);
     gain.gain.setValueAtTime(0.001, noteStart);
     gain.gain.exponentialRampToValueAtTime(0.055, noteStart + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.001, noteEnd);
-
     oscillator.connect(gain);
     gain.connect(audioContext.destination);
     oscillator.start(noteStart);
@@ -506,13 +595,9 @@ function playToneSequence(sequence, waveform = "square", duration = 0.12) {
 }
 
 function playEffect(kind) {
-  if (kind === "correct") {
-    playToneSequence([523.25, 659.25, 783.99], "square", 0.09);
-  } else if (kind === "wrong") {
-    playToneSequence([220.0, 174.61], "sawtooth", 0.14);
-  } else if (kind === "great") {
-    playToneSequence([523.25, 659.25, 783.99, 1046.5], "triangle", 0.1);
-  }
+  if (kind === "correct") playToneSequence([523.25, 659.25, 783.99], "square", 0.09);
+  if (kind === "wrong") playToneSequence([220.0, 174.61], "sawtooth", 0.14);
+  if (kind === "great") playToneSequence([523.25, 659.25, 783.99, 1046.5], "triangle", 0.1);
 }
 
 function flashCard(kind) {
@@ -524,7 +609,6 @@ function flashCard(kind) {
 function setFeedback(message, kind = "") {
   ui.feedback.textContent = message;
   ui.feedback.className = "feedback";
-
   if (kind) {
     ui.feedback.classList.add(kind);
     flashCard(kind);
@@ -532,9 +616,32 @@ function setFeedback(message, kind = "") {
   }
 }
 
+function parsePartyPlayers() {
+  return ui.partyPlayersInput.value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .slice(0, 12)
+    .map((name) => ({ name, score: 0 }));
+}
+
+function updateModeUI() {
+  ui.modeButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.mode === state.mode);
+  });
+  ui.partyPanel.classList.toggle("hidden", state.mode !== "party");
+}
+
+function selectMode(mode) {
+  state.mode = mode;
+  updateModeUI();
+  if (state.selectedTopic && state.selectedSubcategory) {
+    ui.selectionSummary.textContent = `${mode === "party" ? "Party Mode" : "Solo"} • ${state.selectedTopic} • ${state.selectedSubcategory}`;
+  }
+}
+
 function renderTopics() {
   ui.topicList.innerHTML = "";
-
   Object.entries(triviaTopics).forEach(([topicName, config]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -547,7 +654,6 @@ function renderTopics() {
 
 function renderSubcategories(topic) {
   ui.subcategoryList.innerHTML = "";
-
   Object.entries(triviaTopics[topic].subcategories).forEach(([subcategoryName, config]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -566,7 +672,6 @@ function selectTopic(topic) {
   ui.selectionSummary.textContent = `Topic selected: ${topic}. Choose a subcategory to continue.`;
   ui.startGameButton.disabled = true;
   renderSubcategories(topic);
-
   [...ui.topicList.querySelectorAll(".topic-button")].forEach((button) => {
     button.classList.toggle("active", button.querySelector("strong").textContent === topic);
   });
@@ -574,12 +679,19 @@ function selectTopic(topic) {
 
 function selectSubcategory(subcategory) {
   state.selectedSubcategory = subcategory;
-  ui.selectionSummary.textContent = `${state.selectedTopic} • ${subcategory} is ready to play.`;
+  ui.selectionSummary.textContent = state.mode === "party"
+    ? `Party Mode • ${state.selectedTopic} • ${subcategory}. Add player names, then start the round.`
+    : `Solo • ${state.selectedTopic} • ${subcategory}`;
   ui.startGameButton.disabled = false;
-
   [...ui.subcategoryList.querySelectorAll(".subcategory-button")].forEach((button) => {
     button.classList.toggle("active", button.querySelector("strong").textContent === subcategory);
   });
+  window.clearTimeout(state.autoStartTimeoutId);
+  if (state.mode === "single") {
+    state.autoStartTimeoutId = window.setTimeout(() => {
+      startGame();
+    }, 180);
+  }
 }
 
 function updateTimerDisplay(secondsLeft) {
@@ -595,21 +707,31 @@ function updateTimerDisplay(secondsLeft) {
 function lockAnswers(correctAnswer, chosenAnswer) {
   [...ui.answerButtons.querySelectorAll("button")].forEach((button) => {
     button.disabled = true;
-
-    if (button.textContent === correctAnswer) {
-      button.classList.add("correct");
-    } else if (chosenAnswer && button.textContent === chosenAnswer) {
-      button.classList.add("wrong");
-    }
+    if (button.textContent === correctAnswer) button.classList.add("correct");
+    else if (chosenAnswer && button.textContent === chosenAnswer) button.classList.add("wrong");
   });
+}
+
+function renderPartyScoreboard() {
+  if (state.mode !== "party") {
+    ui.partyScoreboard.classList.add("hidden");
+    ui.partyScoreboard.innerHTML = "";
+    return;
+  }
+  ui.partyScoreboard.classList.remove("hidden");
+  ui.partyScoreboard.innerHTML = state.partyPlayers
+    .map((player, index) => `<div class="party-player ${index === state.activePlayerIndex ? "active-player" : ""}"><span>${player.name}</span><strong>${player.score}</strong></div>`)
+    .join("");
 }
 
 function renderQuestion(question) {
   ui.questionCount.textContent = `${state.currentQuestionIndex + 1} / ${QUESTIONS_PER_GAME}`;
   ui.questionText.textContent = question.question;
-  ui.nowPlayingText.textContent = `${state.selectedTopic} • ${state.selectedSubcategory}`;
+  ui.nowPlayingText.textContent = state.mode === "party"
+    ? `${state.partyPlayers[state.activePlayerIndex]?.name || "Player"} is up`
+    : `${state.selectedTopic} • ${state.selectedSubcategory}`;
   ui.answerButtons.innerHTML = "";
-
+  renderPartyScoreboard();
   shuffle(question.answers).forEach((answer) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -621,8 +743,18 @@ function renderQuestion(question) {
 }
 
 function startGame() {
-  if (!state.selectedTopic || !state.selectedSubcategory) {
-    return;
+  if (!state.selectedTopic || !state.selectedSubcategory) return;
+  if (state.mode === "party") {
+    const players = parsePartyPlayers();
+    if (players.length < 2) {
+      ui.selectionSummary.textContent = "Party Mode needs at least 2 player names.";
+      return;
+    }
+    state.partyPlayers = players;
+    state.activePlayerIndex = 0;
+  } else {
+    state.partyPlayers = [];
+    state.activePlayerIndex = 0;
   }
 
   clearTimers();
@@ -630,6 +762,7 @@ function startGame() {
   state.currentQuestionIndex = 0;
   state.score = 0;
   state.hasAnsweredCurrentQuestion = false;
+  ui.modeName.textContent = state.mode === "party" ? "Party" : "Solo";
   ui.topicName.textContent = state.selectedTopic;
   ui.subcategoryName.textContent = state.selectedSubcategory;
   ui.scoreDisplay.textContent = "0";
@@ -640,11 +773,9 @@ function startGame() {
 function startTimer() {
   state.countdown = TIME_PER_QUESTION;
   updateTimerDisplay(state.countdown);
-
   state.timerId = window.setInterval(() => {
     state.countdown -= 1;
     updateTimerDisplay(state.countdown);
-
     if (state.countdown <= 0) {
       window.clearInterval(state.timerId);
       state.timerId = null;
@@ -663,32 +794,40 @@ function showQuestion() {
 
 function moveToNextQuestion() {
   state.currentQuestionIndex += 1;
-
+  if (state.mode === "party" && state.partyPlayers.length > 0) {
+    state.activePlayerIndex = state.currentQuestionIndex % state.partyPlayers.length;
+  }
   if (state.currentQuestionIndex >= QUESTIONS_PER_GAME) {
     endGame();
     return;
   }
-
   showQuestion();
 }
 
 function handleAnswer(selectedAnswer) {
-  if (state.hasAnsweredCurrentQuestion) {
-    return;
-  }
-
+  if (state.hasAnsweredCurrentQuestion) return;
   state.hasAnsweredCurrentQuestion = true;
   clearTimers();
-
   const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
-  if (isCorrect) {
-    state.score += 1;
-    ui.scoreDisplay.textContent = String(state.score);
-    setFeedback("Correct! +1 point.", "correct");
+  if (state.mode === "party") {
+    const activePlayer = state.partyPlayers[state.activePlayerIndex];
+    if (isCorrect) {
+      activePlayer.score += 1;
+      setFeedback(`${activePlayer.name} got it right. +1 point.`, "correct");
+    } else {
+      setFeedback(`${activePlayer.name} missed it. Correct answer: ${currentQuestion.correctAnswer}.`, "wrong");
+    }
+    renderPartyScoreboard();
   } else {
-    setFeedback(`Not quite. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+    if (isCorrect) {
+      state.score += 1;
+      ui.scoreDisplay.textContent = String(state.score);
+      setFeedback("Correct! +1 point.", "correct");
+    } else {
+      setFeedback(`Not quite. The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+    }
   }
 
   lockAnswers(currentQuestion.correctAnswer, selectedAnswer);
@@ -697,13 +836,15 @@ function handleAnswer(selectedAnswer) {
 }
 
 function handleTimeout() {
-  if (state.hasAnsweredCurrentQuestion) {
-    return;
-  }
-
+  if (state.hasAnsweredCurrentQuestion) return;
   state.hasAnsweredCurrentQuestion = true;
   const currentQuestion = state.currentQuestions[state.currentQuestionIndex];
-  setFeedback(`Time's up! The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+  if (state.mode === "party") {
+    const activePlayer = state.partyPlayers[state.activePlayerIndex];
+    setFeedback(`${activePlayer.name} ran out of time. Correct answer: ${currentQuestion.correctAnswer}.`, "wrong");
+  } else {
+    setFeedback(`Time's up! The correct answer was ${currentQuestion.correctAnswer}.`, "wrong");
+  }
   lockAnswers(currentQuestion.correctAnswer);
   ui.nowPlayingText.textContent = "Next question loading.";
   state.advanceTimeoutId = window.setTimeout(moveToNextQuestion, 1600);
@@ -711,19 +852,27 @@ function handleTimeout() {
 
 function endGame() {
   clearTimers();
-  ui.finalScore.textContent = `${state.score} / ${QUESTIONS_PER_GAME}`;
-
-  if (state.score === QUESTIONS_PER_GAME) {
-    ui.resultMessage.textContent = "Perfect score. That was a flawless run.";
+  if (state.mode === "party") {
+    const ranking = [...state.partyPlayers].sort((a, b) => b.score - a.score);
+    const winner = ranking[0];
+    ui.finalScore.textContent = `${winner.score} pts`;
+    ui.resultMessage.textContent = `${winner.name} wins Party Mode.`;
+    ui.resultExtra.innerHTML = ranking.map((player, index) => `<div class="result-rank"><span>${index + 1}. ${player.name}</span><strong>${player.score}</strong></div>`).join("");
     playEffect("great");
-  } else if (state.score >= 7) {
-    ui.resultMessage.textContent = "Strong round. You were on a streak.";
-  } else if (state.score >= 4) {
-    ui.resultMessage.textContent = "Nice effort. One more round could top that score.";
   } else {
-    ui.resultMessage.textContent = "That round was tough, but the next one should feel fresher.";
+    ui.finalScore.textContent = `${state.score} / ${QUESTIONS_PER_GAME}`;
+    ui.resultExtra.innerHTML = "";
+    if (state.score === QUESTIONS_PER_GAME) {
+      ui.resultMessage.textContent = "Perfect score. That was a flawless run.";
+      playEffect("great");
+    } else if (state.score >= 7) {
+      ui.resultMessage.textContent = "Strong round. You were on a streak.";
+    } else if (state.score >= 4) {
+      ui.resultMessage.textContent = "Nice effort. One more round could top that score.";
+    } else {
+      ui.resultMessage.textContent = "That round was tough, but the next one should feel fresher.";
+    }
   }
-
   showScreen(ui.resultScreen);
 }
 
@@ -732,17 +881,22 @@ function initializeGame() {
   ui.startScreen = document.getElementById("start-screen");
   ui.gameScreen = document.getElementById("game-screen");
   ui.resultScreen = document.getElementById("result-screen");
+  ui.modeButtons = [...document.querySelectorAll("[data-mode]")];
+  ui.partyPanel = document.getElementById("party-panel");
+  ui.partyPlayersInput = document.getElementById("party-players");
   ui.topicList = document.getElementById("topic-list");
   ui.subcategoryPanel = document.getElementById("subcategory-panel");
   ui.subcategoryList = document.getElementById("subcategory-list");
   ui.subcategoryCopy = document.getElementById("subcategory-copy");
   ui.selectionSummary = document.getElementById("selection-summary");
   ui.startGameButton = document.getElementById("start-game");
+  ui.modeName = document.getElementById("mode-name");
   ui.topicName = document.getElementById("topic-name");
   ui.subcategoryName = document.getElementById("subcategory-name");
   ui.questionCount = document.getElementById("question-count");
   ui.scoreDisplay = document.getElementById("score");
   ui.nowPlayingText = document.getElementById("now-playing-text");
+  ui.partyScoreboard = document.getElementById("party-scoreboard");
   ui.timerText = document.getElementById("timer-text");
   ui.timerBar = document.getElementById("timer-bar");
   ui.questionText = document.getElementById("question-text");
@@ -750,11 +904,16 @@ function initializeGame() {
   ui.feedback = document.getElementById("feedback");
   ui.resultMessage = document.getElementById("result-message");
   ui.finalScore = document.getElementById("final-score");
+  ui.resultExtra = document.getElementById("result-extra");
   ui.playAgainButton = document.getElementById("play-again");
   ui.replayTopicButton = document.getElementById("replay-topic");
 
   renderTopics();
+  updateModeUI();
 
+  ui.modeButtons.forEach((button) => {
+    button.addEventListener("click", () => selectMode(button.dataset.mode));
+  });
   ui.startGameButton.addEventListener("click", startGame);
   ui.playAgainButton.addEventListener("click", () => {
     clearTimers();

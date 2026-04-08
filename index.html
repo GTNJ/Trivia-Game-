@@ -26,7 +26,35 @@
       <div id="start-screen" class="screen active">
         <div class="panel-heading">
           <h2>Select A Topic</h2>
-          <p>Choose a category, then pick a subcategory to start your round.</p>
+          <p>Choose a mode, then pick a category and subcategory to start your round.</p>
+        </div>
+
+        <div class="selection-block">
+          <div class="panel-heading compact">
+            <h3>0. Mode</h3>
+            <p>Play solo or pass the device around the room.</p>
+          </div>
+          <div id="mode-list" class="mode-grid" aria-label="Mode selection">
+            <button class="mode-button active" type="button" data-mode="single">
+              <strong>Solo</strong>
+              <span>Classic one-player sprint.</span>
+            </button>
+            <button class="mode-button" type="button" data-mode="party">
+              <strong>Party Mode</strong>
+              <span>Pass-the-device group play for a house party.</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="party-panel" class="selection-block hidden">
+          <div class="panel-heading compact">
+            <h3>Party Setup</h3>
+            <p>Enter player names separated by commas.</p>
+          </div>
+          <label class="party-field">
+            <span>Players</span>
+            <input id="party-players" type="text" placeholder="Alex, Sam, Priya, Jordan">
+          </label>
         </div>
 
         <div class="selection-block">
@@ -54,6 +82,10 @@
       <div id="game-screen" class="screen" aria-live="polite">
         <div class="status-bar">
           <div class="status-pill">
+            <span class="status-label">Mode</span>
+            <strong id="mode-name">Solo</strong>
+          </div>
+          <div class="status-pill">
             <span class="status-label">Topic</span>
             <strong id="topic-name">General Knowledge</strong>
           </div>
@@ -76,6 +108,8 @@
           <strong>Round Status:</strong>
           <span id="now-playing-text">Ready to play.</span>
         </div>
+
+        <div id="party-scoreboard" class="party-scoreboard hidden"></div>
 
         <div class="timer-wrap">
           <div class="timer-header">
@@ -102,6 +136,7 @@
         <div class="result-score">
           <span>Final Score</span>
           <strong id="final-score">0 / 10</strong>
+          <div id="result-extra" class="result-extra"></div>
         </div>
         <div class="result-actions">
           <button id="play-again" class="secondary-button" type="button">Choose Another Topic</button>
