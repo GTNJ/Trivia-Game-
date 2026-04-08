@@ -1,6 +1,6 @@
 const QUESTIONS_PER_GAME = 10;
 const TIME_PER_QUESTION = 10;
-const RECENT_HISTORY_LIMIT = QUESTIONS_PER_GAME * 2;
+const AI_QUESTION_ENDPOINT = "/api/generate-questions";
 
 const triviaTopics = {
   "General Knowledge": {
@@ -486,6 +486,7 @@ const state = {
   autoStartTimeoutId: null,
   partyPlayers: [],
   activePlayerIndex: 0,
+  isLoadingRound: false,
 };
 
 function shuffle(items) {
@@ -497,58 +498,130 @@ function shuffle(items) {
   return copy;
 }
 
-function getPoolKey(topic, subcategory) {
-  return `trivia-sprint:${topic}:${subcategory}:recent`;
+function getDeckKey(topic, subcategory) {
+  return `trivia-sprint:${topic}:${subcategory}:deck`;
 }
 
-function getLastRoundKey(topic, subcategory) {
-  return `trivia-sprint:${topic}:${subcategory}:last-round`;
-}
-
-function getRecentHistory(topic, subcategory) {
+function loadDeckState(topic, subcategory, pool) {
+  const poolIds = pool.map((question) => question.id);
   try {
-    const raw = window.localStorage.getItem(getPoolKey(topic, subcategory));
-    return raw ? JSON.parse(raw) : [];
+    const raw = window.localStorage.getItem(getDeckKey(topic, subcategory));
+    if (!raw) {
+      return { remainingIds: shuffle(poolIds) };
+    }
+    const parsed = JSON.parse(raw);
+    const savedIds = Array.isArray(parsed?.remainingIds) ? parsed.remainingIds : [];
+    const filteredIds = savedIds.filter((id) => poolIds.includes(id));
+    const missingIds = poolIds.filter((id) => !filteredIds.includes(id));
+    return { remainingIds: [...filteredIds, ...shuffle(missingIds)] };
   } catch {
-    return [];
+    return { remainingIds: shuffle(poolIds) };
   }
 }
 
-function saveRecentHistory(topic, subcategory, questions) {
+function saveDeckState(topic, subcategory, remainingIds) {
   try {
-    const existing = getRecentHistory(topic, subcategory);
-    const ids = questions.map((question) => question.id);
-    const merged = [...new Set([...existing, ...ids])];
-    window.localStorage.setItem(getPoolKey(topic, subcategory), JSON.stringify(merged.slice(-RECENT_HISTORY_LIMIT)));
-  } catch {}
-}
-
-function getLastRound(topic, subcategory) {
-  try {
-    const raw = window.localStorage.getItem(getLastRoundKey(topic, subcategory));
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveLastRound(topic, subcategory, questions) {
-  try {
-    window.localStorage.setItem(getLastRoundKey(topic, subcategory), JSON.stringify(questions.map((question) => question.id)));
+    window.localStorage.setItem(getDeckKey(topic, subcategory), JSON.stringify({ remainingIds }));
   } catch {}
 }
 
 function chooseQuestions(topic, subcategory) {
   const pool = triviaTopics[topic].subcategories[subcategory].questions;
-  const recent = new Set(getRecentHistory(topic, subcategory));
-  const lastRound = new Set(getLastRound(topic, subcategory));
-  const neverSeen = shuffle(pool.filter((question) => !recent.has(question.id) && !lastRound.has(question.id)));
-  const notInLastRound = shuffle(pool.filter((question) => !lastRound.has(question.id) && recent.has(question.id)));
-  const seenBefore = shuffle(pool.filter((question) => lastRound.has(question.id)));
-  const selected = [...neverSeen, ...notInLastRound, ...seenBefore].slice(0, QUESTIONS_PER_GAME);
-  saveRecentHistory(topic, subcategory, selected);
-  saveLastRound(topic, subcategory, selected);
+  const questionById = new Map(pool.map((question) => [question.id, question]));
+  let deckState = loadDeckState(topic, subcategory, pool);
+  const selected = [];
+
+  while (selected.length < QUESTIONS_PER_GAME) {
+    if (deckState.remainingIds.length === 0) {
+      deckState = { remainingIds: shuffle(pool.map((question) => question.id)) };
+    }
+
+    const nextId = deckState.remainingIds.shift();
+    const question = questionById.get(nextId);
+    if (!question) continue;
+    selected.push(question);
+  }
+
+  saveDeckState(topic, subcategory, deckState.remainingIds);
   return selected;
+}
+
+function getApiBaseUrl() {
+  const configuredBase = typeof window !== "undefined" ? window.TRIVIA_API_BASE : "";
+  if (typeof configuredBase === "string" && configuredBase.trim()) {
+    return configuredBase.replace(/\/$/, "");
+  }
+  return "";
+}
+
+function getAiEndpoint() {
+  return `${getApiBaseUrl()}${AI_QUESTION_ENDPOINT}`;
+}
+
+function normalizeAIQuestions(questions, topic, subcategory) {
+  if (!Array.isArray(questions)) {
+    throw new Error("AI backend did not return an array.");
+  }
+
+  return questions
+    .filter((question) => question && typeof question === "object")
+    .map((question, index) => {
+      const answers = Array.isArray(question.answers)
+        ? question.answers.filter((answer) => typeof answer === "string" && answer.trim())
+        : [];
+
+      const normalized = {
+        id: question.id || `ai-${topic}-${subcategory}-${Date.now()}-${index}`,
+        question: typeof question.question === "string" ? question.question.trim() : "",
+        answers: [...new Set(answers)].slice(0, 4),
+        correctAnswer: typeof question.correctAnswer === "string" ? question.correctAnswer.trim() : "",
+      };
+
+      if (
+        normalized.question &&
+        normalized.answers.length === 4 &&
+        normalized.correctAnswer &&
+        normalized.answers.includes(normalized.correctAnswer)
+      ) {
+        return normalized;
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+}
+
+async function requestAIQuestions(topic, subcategory) {
+  const response = await window.fetch(getAiEndpoint(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      topic,
+      subcategory,
+      count: QUESTIONS_PER_GAME,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`AI backend returned ${response.status}.`);
+  }
+
+  const payload = await response.json();
+  const questions = normalizeAIQuestions(payload.questions, topic, subcategory);
+  if (questions.length < QUESTIONS_PER_GAME) {
+    throw new Error("AI backend returned too few valid questions.");
+  }
+  return questions.slice(0, QUESTIONS_PER_GAME);
+}
+
+async function getRoundQuestions(topic, subcategory) {
+  try {
+    return await requestAIQuestions(topic, subcategory);
+  } catch {
+    return chooseQuestions(topic, subcategory);
+  }
 }
 
 function clearTimers() {
@@ -742,8 +815,8 @@ function renderQuestion(question) {
   });
 }
 
-function startGame() {
-  if (!state.selectedTopic || !state.selectedSubcategory) return;
+async function startGame() {
+  if (!state.selectedTopic || !state.selectedSubcategory || state.isLoadingRound) return;
   if (state.mode === "party") {
     const players = parsePartyPlayers();
     if (players.length < 2) {
@@ -757,17 +830,33 @@ function startGame() {
     state.activePlayerIndex = 0;
   }
 
+  state.isLoadingRound = true;
   clearTimers();
-  state.currentQuestions = chooseQuestions(state.selectedTopic, state.selectedSubcategory);
-  state.currentQuestionIndex = 0;
-  state.score = 0;
-  state.hasAnsweredCurrentQuestion = false;
-  ui.modeName.textContent = state.mode === "party" ? "Party" : "Solo";
-  ui.topicName.textContent = state.selectedTopic;
-  ui.subcategoryName.textContent = state.selectedSubcategory;
-  ui.scoreDisplay.textContent = "0";
-  showScreen(ui.gameScreen);
-  showQuestion();
+  ui.startGameButton.disabled = true;
+  ui.replayTopicButton.disabled = true;
+
+  if (ui.startScreen.classList.contains("active")) {
+    ui.selectionSummary.textContent = "Loading fresh questions...";
+  } else if (ui.resultScreen.classList.contains("active")) {
+    ui.resultMessage.textContent = "Loading fresh questions...";
+  }
+
+  try {
+    state.currentQuestions = await getRoundQuestions(state.selectedTopic, state.selectedSubcategory);
+    state.currentQuestionIndex = 0;
+    state.score = 0;
+    state.hasAnsweredCurrentQuestion = false;
+    ui.modeName.textContent = state.mode === "party" ? "Party" : "Solo";
+    ui.topicName.textContent = state.selectedTopic;
+    ui.subcategoryName.textContent = state.selectedSubcategory;
+    ui.scoreDisplay.textContent = "0";
+    showScreen(ui.gameScreen);
+    showQuestion();
+  } finally {
+    state.isLoadingRound = false;
+    ui.startGameButton.disabled = !state.selectedSubcategory;
+    ui.replayTopicButton.disabled = false;
+  }
 }
 
 function startTimer() {
